@@ -959,7 +959,7 @@ const ABOUT = {
  sendaistreet:{q:"仙台 クリスロード アーケード",kind:"景點",
   text:["從 Marble Road、水晶之路（CLIS ROAD）一路接到站前的名掛丁，是連成一片的拱廊商店街，下雨也能逛。"],
   pick:[]},
- sendaist:{q:"仙台車站",kind:"景點",
+ sendaist:{q:"仙台車站",kind:"景點",nophoto:1,
   text:["**仙台車站概略重點**\n**2 樓**：東西自由通路，同時也是 S-PAL（本館、東館、二館）的入口處。\n**3 樓**：牛舌通（牛舌一條街）、壽司通、毛豆小徑。","參考：[仙台車站攻略](https://nicklee.tw/1398/sendai-station/)"],
   pick:[]},
  spal:{q:"S-PAL 仙台 本館 東館",kind:"購物",
@@ -1108,7 +1108,7 @@ function aboutPanel(pid,k,a){
   const q = encodeURIComponent(a.q);
   return `<div class="panel a" id="${pid}" hidden><div class="ph">${icon(AB_ICON(a))}${AB_LABEL(a)}</div>${gallery(k)}${a.text.map(x=>`<p>${md(x)}</p>`).join("")}
       ${a.pick&&a.pick.length?`<div class="pick"><b>${a.kind==="餐廳"?"推薦點":a.kind==="溫泉"?"重點":a.kind==="購物"?"必逛":"必看"}</b><ul>${a.pick.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:""}
-      <div class="actions"><a class="btn photo" href="https://www.google.com/search?tbm=isch&q=${q}" target="_blank" rel="noopener">${icon("camera")}看實景照片</a></div></div>`;
+      ${a.kind==="購物"||a.nophoto?"":`<div class="actions"><a class="btn photo" href="https://www.google.com/search?tbm=isch&q=${q}" target="_blank" rel="noopener">${icon("camera")}看實景照片</a></div>`}</div>`;
 }
 function gallery(k){
   const list = IMGS[k]; if(!list||!list.length) return "";

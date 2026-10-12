@@ -9,8 +9,13 @@
 <style>
 #lmap{height:min(64vh,480px);min-height:340px;isolation:isolate;z-index:0}
 .lmkw{background:none!important;border:0!important}
-.lmk{display:inline-block;transform:translate(-50%,-50%);min-width:24px;height:24px;padding:0 7px;box-sizing:border-box;border-radius:12px;color:#fff;font:700 12px/20px "IBM Plex Mono",ui-monospace,monospace;text-align:center;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.45);white-space:nowrap}
-.lmk.sel{box-shadow:0 0 0 3px rgba(0,0,0,.35),0 1px 4px rgba(0,0,0,.45);transform:translate(-50%,-50%) scale(1.2)}
+.lmw{display:flex;align-items:center;white-space:nowrap;transform:translate(-12px,-50%)}
+.lmw.left{flex-direction:row-reverse;transform:translate(calc(-100% + 12px),-50%)}
+.lmk{flex:none;min-width:24px;height:24px;padding:0 7px;box-sizing:border-box;border-radius:12px;color:#fff;font:700 12px/20px "IBM Plex Mono",ui-monospace,monospace;text-align:center;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.45)}
+.lmk.sel{box-shadow:0 0 0 3px rgba(0,0,0,.35),0 1px 4px rgba(0,0,0,.45)}
+.lml{margin:0 4px;max-width:11em;overflow:hidden;text-overflow:ellipsis;background:rgba(255,255,255,.94);color:#1b1f23;border:1px solid rgba(0,0,0,.22);border-radius:6px;padding:0 6px;font:600 12px/18px "Noto Sans TC",system-ui,sans-serif;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.hidelab .lml{display:none}
+.hidelab .lmw.selw .lml{display:block}
 .leaflet-container{font-family:inherit}
 </style>
 </head>
@@ -406,12 +411,13 @@ const D2_A = [
   S({t:"09:20",end:"11:50",title:"立石寺（山寺）",ab:"yamadera",dur:"2.5 小時",tag:"景點",key:1,map:G("cWgw5XuHAUznYAbW7"),sub:"08:00–15:30 最後入場、16:30 關閉",
      info:["山門到奧之院約 1,015 級石階，單程約 40–50 分。入山費用 ¥500/人。"],
      park:["立石寺停車場 ¥400　[地圖](https://maps.app.goo.gl/LbkxtVVZyUmhce8x9)"]}),
-  M("walk","11:50","約 5–10 分","立石寺 → 腰掛庵"),
-  S({t:"12:00",end:"12:15",title:"腰掛庵",ab:"koshikake",dur:"15 分",tag:"甜點",food:1,map:G("XfgW5xnGXDGwKWCD6"),sub:"和菓子、蕨餅",
-     info:["營業 09:30–17:00，週一、週二公休（10/28 週三有營業）。品項賣完即止。營業時間可能臨時調整，前一天先確認。"]}),
-  S({t:"12:15",end:"13:30",title:"午餐（待訂）",dur:"1 小時 15 分",tag:"午餐",food:1,sub:"山寺門前，店家待訂。"}),
-  M("car","13:45","約 1 小時 10 分","山寺 → 銀山溫泉（約 60 km）。高速段通行費約 ¥500；走一般道多約 15 分。"),
-  S({t:"15:00",title:"入住 銀山溫泉 昭和館",tag:"住宿",stay:1,key:1,map:G("WoVx9yQtqmZwFZTdA"),sub:"預估 14:55 抵達。",info:[LUNCH_SHOWAKAN],park:[PARK_SHOWAKAN]}),
+  S({t:"11:50",end:"13:00",title:"午餐（待訂）",dur:"1 小時 10 分",tag:"午餐",food:1,sub:"山寺門前，店家待訂。"}),
+  M("car","13:00","約 20 分","山寺 → 腰掛庵（開車，估計約 8–10 km；腰掛庵不在山寺門前，不能走路）"),
+  S({t:"13:20",end:"13:35",title:"腰掛庵",ab:"koshikake",dur:"15 分",tag:"甜點",food:1,map:G("miQe4UKmMTkoYQDeA"),sub:"和菓子、蕨餅",
+     info:["營業 09:30–17:00，週一、週二公休（10/28 週三有營業）。品項賣完即止。營業時間可能臨時調整，前一天先確認。"],
+     park:["門口有工作人員指引停車。"]}),
+  M("car","13:45","約 55 分","腰掛庵 → 銀山溫泉（估計約 40–45 km，實際以導航為準）。"),
+  S({t:"15:00",title:"入住 銀山溫泉 昭和館",tag:"住宿",stay:1,key:1,map:G("WoVx9yQtqmZwFZTdA"),sub:"預估 14:40 抵達。",info:[LUNCH_SHOWAKAN],park:[PARK_SHOWAKAN]}),
   S({t:"15:15",end:"17:45",title:"銀山溫泉散策",ab:"ginzan",dur:"2.5 小時",tag:"散策",sub:"日落約 16:50，天黑後瓦斯燈亮起最好看。先逛 17:00 打烊的店。",places:SHOPS_GINZAN}),
   S({t:"18:00",title:"旅館晚餐，泡湯休息",tag:"晚餐",food:1})
 ];
@@ -489,11 +495,11 @@ const D4_B = [
   M("car","08:30","約 30 分","山形站前 → 山寺（約 15 km）"),
   S({t:"09:15",end:"11:45",title:"立石寺（山寺）",ab:"yamadera",dur:"2.5 小時",tag:"景點",key:1,map:G("cWgw5XuHAUznYAbW7"),sub:"08:00–15:30 最後入場、16:30 關閉",
      info:["山門到奧之院約 1,015 級石階，單程約 40–50 分。入山費用 ¥500/人。"],park:["立石寺停車場 ¥400　[地圖](https://maps.app.goo.gl/LbkxtVVZyUmhce8x9)"]}),
-  M("walk","11:45","約 5–10 分","立石寺 → 腰掛庵"),
-  S({t:"11:45",end:"12:00",title:"腰掛庵",ab:"koshikake",dur:"15 分",tag:"甜點",food:1,map:G("XfgW5xnGXDGwKWCD6"),sub:"10/30 週五有營業（09:30–17:00，賣完即止）"}),
-  S({t:"12:00",end:"13:00",title:"午餐（待訂）",dur:"1 小時",tag:"午餐",food:1,sub:"山寺門前，店家待訂。"}),
-  M("car","13:00","約 30 分","山寺 → 山形站前，車停香澄町第２"),
-  S({t:"13:30",end:"17:00",title:"山形市區散策",ab:"yamagata7",dur:"3.5 小時",tag:"散策",sub:"逛 Day 3 沒逛的那一邊，兩邊都想逛也來得及。",
+  S({t:"11:45",end:"12:45",title:"午餐（待訂）",dur:"1 小時",tag:"午餐",food:1,sub:"山寺門前，店家待訂。"}),
+  M("car","12:45","約 20 分","山寺 → 腰掛庵（開車，估計約 8–10 km；腰掛庵不在山寺門前，不能走路）"),
+  S({t:"13:05",end:"13:20",title:"腰掛庵",ab:"koshikake",dur:"15 分",tag:"甜點",food:1,map:G("miQe4UKmMTkoYQDeA"),sub:"10/30 週五有營業（09:30–17:00，賣完即止）",park:["門口有工作人員指引停車。"]}),
+  M("car","13:20","約 25 分","腰掛庵 → 山形站前（估計），車停香澄町第２"),
+  S({t:"13:45",end:"17:00",title:"山形市區散策",ab:"yamagata7",dur:"3 小時 15 分",tag:"散策",sub:"逛 Day 3 沒逛的那一邊，兩邊都想逛也來得及。",
      places:[["S-PAL 山形","10:00–19:00",G("UqoB3zv5ptWxFNEVA")],["山形まるごと館 紅之藏","10:00–18:00",G("92oiRd5VGEvMhXux7")],["白露ふうき豆本舗 山田家","09:00–18:00",G("Wix7yuwf5vuUpqK28")],["水の町屋 七日町御殿堰","24 小時",G("aqARtER13uwNyymZ7")]]}),
   S({t:"17:15",end:"18:15",title:"晚餐：蕎麥麵 庄司屋",ab:"shojiya",tag:"晚餐",food:1,map:G("7xY4vPsLrqY56qw2A"),park:["附設停車場，免費。"]}),
   S({t:"18:25",end:"19:25",title:"DAISO",tag:"購物",map:G("p9XoE8Yn6BJ2KYmD7"),park:["附設停車場，免費。"]}),
@@ -734,7 +740,7 @@ const ABOUT = {
         "從山門走約 1,015 級石階到奧之院，一路是杉林、石佛與岩壁上的小堂。"],
   pick:["五大堂：懸在崖邊的木造觀景堂，能俯瞰整個山寺聚落，是招牌畫面","仁王門與周邊岩壁的紅葉","根本中堂（山下，日本最古老的山毛櫸木造建築之一）"]},
  koshikake:{q:"山寺 腰掛庵 わらび餅",kind:"餐廳",
-  text:["山寺門前的小和菓子店，最有名的是現做的「わらび餅」（蕨餅），口感軟Q、裹滿黃豆粉。爬完 1,015 級石階後來一份剛好。"],
+  text:["和菓子店，最有名的是現做的「わらび餅」（蕨餅），口感軟Q、裹滿黃豆粉。這家不在山寺門前，要從山寺開車前往（約 20 分，估計）。"],
   pick:["わらび餅","季節和菓子（賣完即止）"]},
  ginzan:{q:"銀山温泉 夜景 ガス灯",kind:"景點",
   text:["江戶時代因延澤銀山而興起的溫泉街，銀山川兩岸排列著大正到昭和初期的木造三、四層旅館，外牆有鏝繪裝飾。",
@@ -1131,45 +1137,45 @@ const P = (name,lat,lon,t,link,ab)=>({name,lat,lon,t,link,ab});
 const PT = {
   sdj:P("仙台機場",38.1397,140.9171,"",null),
   nissan:P("NISSAN 仙台空港店（取車）",38.1455,140.9010,"16:45",null),
-  step:P("Step Sports Sendai",38.2617,140.8693,"18:00",G("fiZpAtrLELmEErSRA")),
-  zenjiro:P("たんや善治郎 二日町店",38.2688,140.8680,"19:30",G("Z34E592bpRUVVvB3A"),"zenjiro"),
-  keihan:P("ホテル京阪 仙台",38.2588,140.8797,"21:10",G("hmXJmco9pz1tx5GS9")),
-  yamadera:P("立石寺（山寺）",38.3125,140.4373,"",G("cWgw5XuHAUznYAbW7"),"yamadera"),
-  koshikake:P("腰掛庵",38.3098,140.4350,"",G("XfgW5xnGXDGwKWCD6"),"koshikake"),
-  ginzan:P("銀山溫泉 昭和館",38.5703,140.5306,"",G("WoVx9yQtqmZwFZTdA"),"ginzan"),
-  okama:P("御釜・刈田岳",38.1360,140.4495,"",G("55gi6uaFJXcFpaNm7"),"okama"),
-  okumura:P("中華そば 奥村",38.1672,140.3958,"",G("ddjrvs5JC1x2o3xg8"),"okumura"),
-  zaostreet:P("藏王溫泉街",38.1663,140.3985,"",G("hqNJesxLYj3g5HTD7"),"zaoonsen"),
-  ropeway:P("藏王纜車 山麓站",38.1652,140.4012,"",G("o63xQ3xCTGE9MkuLA"),"ropeway"),
-  zaobath:P("大露天風呂・善七乃湯",38.1625,140.4060,"",G("gHZUSuVTvUecS1G8A"),"zaobath"),
-  naruko:P("鳴子峽",38.7345,140.6610,"",G("Xg3BH8GoSWmf4NGA9"),"naruko"),
-  nanokaY:P("山形 七日町・紅の蔵",38.2560,140.3400,"",G("92oiRd5VGEvMhXux7"),"yamagata7"),
-  spalY:P("S-PAL 山形（山形站）",38.2487,140.3277,"",G("UqoB3zv5ptWxFNEVA")),
-  daiwa:P("ダイワロイネット 山形駅前",38.2479,140.3292,"",G("dBSips3aStg8N1SN8")),
-  tokiwa:P("米澤牛 登起波 山形店",38.2508,140.3315,"19:00",G("82agZHofU2vQrF447"),"tokiwa"),
-  shojiya:P("蕎麥麵 庄司屋",38.2578,140.3368,"17:15",G("7xY4vPsLrqY56qw2A"),"shojiya"),
-  daiso:P("DAISO",38.2420,140.3305,"",G("p9XoE8Yn6BJ2KYmD7")),
-  ouchi:P("大內宿",37.3330,139.8610,"11:00",G("yhrJ8EZMGSnr7p636"),"ouchi"),
-  tsuruga:P("鶴ヶ城",37.4877,139.9298,"",G("6Nn2ZALQp96PjD4E7"),"tsuruga"),
-  nanokaA:P("會津 七日町通",37.4995,139.9195,"",G("EdMairMXrjGZK6VbA"),"aizu7"),
-  shinobu:P("サムライ シティ イン 信夫屋",37.4950,139.9322,"",G("eERELhVNxktWuNVg7")),
-  takino:P("田季野 輪箱飯",37.4972,139.9300,"19:00",G("q5WCURom9Dp9rbjy7"),"takino"),
-  tadami:P("第一只見川橋梁",37.4700,139.6455,"08:25",G("GjJzVZjpp9W3tLwg9"),"tadami"),
-  tontei:P("とん亭",37.4935,139.9405,"10:30",G("KRmLftM9BUR9YgCr5"),"tontei"),
-  goshiki:P("五色沼湖沼群",37.6505,140.0800,"12:15",G("5rkkDreuSrzyxhYx7"),"goshiki"),
-  kofuji:P("吾妻小富士",37.7200,140.2530,"15:15",G("kFhssoEDiHsHArL69"),"kofuji"),
-  tengu:P("天狗の庭",37.7410,140.2790,"15:55",G("P2XqP37n1mmoeRRC7"),"tengu"),
-  fudo:P("不動澤橋",37.7455,140.2900,"16:15",G("i6v1HGr6T6atiKfR7"),"fudo"),
-  tamagoyu:P("高湯溫泉 玉子湯",37.7520,140.3170,"16:50",G("4zPnNyYv3WcTFZo98"),"tamagoyu"),
-  return:P("還車 仙台站東口",38.2597,140.8862,"20:20",G("vsQh3ZdNjiFuJmhu9")),
-  almont:P("アルモントホテル 仙台",38.2585,140.8795,"",G("njtscpr9vFZWivGY6")),
-  sunmall:P("サンモール一番町",38.2560,140.8705,"09:15",G("APcx8FmAbb5jTH296"),"sunmallst"),  botan:P("とんかつ牡丹 本店",38.2592,140.8722,"11:45",G("5JRivwozBXJ2QFpk9"),"botan"),
-  clis:P("Marble Road・CLIS ROAD",38.2610,140.8760,"13:00",G("Hq5D2BmXvZ6c7zB2A"),"sendaistreet"),
-  kaku:P("牛たん料理 閣 名掛丁店",38.2617,140.8797,"18:30",G("eUkz9prvy17j37T36"),"kaku"),
-  aeon:P("AEON",38.2560,140.8835,"20:10",G("1eXAtK1UKP5eRAtL9")),
-  asaichi:P("仙台朝市",38.2584,140.8810,"09:10",G("xMgKMM14hE3nkMmU7"),"asaichi"),
-  spalS:P("S-PAL 仙台",38.2607,140.8826,"11:00",G("5LYosbb8wrUyWr1GA")),
-  dashiro:P("Dashiro",38.2596,140.8816,"13:00",G("Pq5LfpjYxa2gwRyKA"),"dashiro")
+  step:P("Step Sports Sendai",38.258376,140.8725802,"18:00",G("fiZpAtrLELmEErSRA")),
+  zenjiro:P("たんや善治郎 二日町店",38.2687781,140.8689976,"19:30",G("Z34E592bpRUVVvB3A"),"zenjiro"),
+  keihan:P("ホテル京阪 仙台",38.2597865,140.8767287,"21:10",G("hmXJmco9pz1tx5GS9")),
+  yamadera:P("立石寺（山寺）",38.3131193,140.4346099,"",G("cWgw5XuHAUznYAbW7"),"yamadera"),
+  koshikake:P("腰掛庵",38.350021,140.372686,"",G("miQe4UKmMTkoYQDeA"),"koshikake"),
+  ginzan:P("銀山溫泉 昭和館",38.569873,140.5311508,"",G("WoVx9yQtqmZwFZTdA"),"ginzan"),
+  okama:P("御釜・刈田岳",38.1289383,140.447195,"",G("55gi6uaFJXcFpaNm7"),"okama"),
+  okumura:P("中華そば 奥村",38.1673878,140.3956521,"",G("ddjrvs5JC1x2o3xg8"),"okumura"),
+  zaostreet:P("藏王溫泉街",38.169465,140.3987503,"",G("hqNJesxLYj3g5HTD7"),"zaoonsen"),
+  ropeway:P("藏王纜車 山麓站",38.1616009,140.3952205,"",G("o63xQ3xCTGE9MkuLA"),"ropeway"),
+  zaobath:P("大露天風呂・善七乃湯",38.1661112,140.4018563,"",G("gHZUSuVTvUecS1G8A"),"zaobath"),
+  naruko:P("鳴子峽",38.729115,140.690962,"",G("Xg3BH8GoSWmf4NGA9"),"naruko"),
+  nanokaY:P("山形 七日町・紅の蔵",38.2466585,140.3359623,"",G("92oiRd5VGEvMhXux7"),"yamagata7"),
+  spalY:P("S-PAL 山形（山形站）",38.2488039,140.3280062,"",G("UqoB3zv5ptWxFNEVA")),
+  daiwa:P("ダイワロイネット 山形駅前",38.2474258,140.3296967,"",G("dBSips3aStg8N1SN8")),
+  tokiwa:P("米澤牛 登起波 山形店",38.2472513,140.329699,"19:00",G("82agZHofU2vQrF447"),"tokiwa"),
+  shojiya:P("蕎麥麵 庄司屋",38.2429535,140.3259387,"17:15",G("7xY4vPsLrqY56qw2A"),"shojiya"),
+  daiso:P("DAISO",38.2496724,140.3192787,"",G("p9XoE8Yn6BJ2KYmD7")),
+  ouchi:P("大內宿",37.3341964,139.8606982,"11:00",G("yhrJ8EZMGSnr7p636"),"ouchi"),
+  tsuruga:P("鶴ヶ城",37.4878198,139.9296657,"",G("6Nn2ZALQp96PjD4E7"),"tsuruga"),
+  nanokaA:P("會津 七日町通",37.5015088,139.9192036,"",G("EdMairMXrjGZK6VbA"),"aizu7"),
+  shinobu:P("サムライ シティ イン 信夫屋",37.4944633,139.930035,"",G("eERELhVNxktWuNVg7")),
+  takino:P("田季野 輪箱飯",37.4961999,139.930915,"19:00",G("q5WCURom9Dp9rbjy7"),"takino"),
+  tadami:P("第一只見川橋梁",37.4783205,139.6720675,"08:25",G("GjJzVZjpp9W3tLwg9"),"tadami"),
+  tontei:P("とん亭",37.4880433,139.9456315,"10:30",G("KRmLftM9BUR9YgCr5"),"tontei"),
+  goshiki:P("五色沼湖沼群",37.6508749,140.0732012,"12:15",G("5rkkDreuSrzyxhYx7"),"goshiki"),
+  kofuji:P("吾妻小富士",37.7218908,140.2640766,"15:15",G("kFhssoEDiHsHArL69"),"kofuji"),
+  tengu:P("天狗の庭",37.742466,140.2743989,"15:55",G("P2XqP37n1mmoeRRC7"),"tengu"),
+  fudo:P("不動澤橋",37.7494264,140.2831561,"16:15",G("i6v1HGr6T6atiKfR7"),"fudo"),
+  tamagoyu:P("高湯溫泉 玉子湯",37.7523504,140.3097977,"16:50",G("4zPnNyYv3WcTFZo98"),"tamagoyu"),
+  return:P("還車 仙台站東口",38.2605753,140.8849899,"20:20",G("vsQh3ZdNjiFuJmhu9")),
+  almont:P("アルモントホテル 仙台",38.2591301,140.8767216,"",G("njtscpr9vFZWivGY6")),
+  sunmall:P("サンモール一番町",38.2587499,140.8726063,"09:15",G("APcx8FmAbb5jTH296"),"sunmallst"),  botan:P("とんかつ牡丹 本店",38.256616,140.8734325,"11:45",G("5JRivwozBXJ2QFpk9"),"botan"),
+  clis:P("Marble Road・CLIS ROAD",38.2615123,140.8765902,"13:00",G("Hq5D2BmXvZ6c7zB2A"),"sendaistreet"),
+  kaku:P("牛たん料理 閣 名掛丁店",38.2623611,140.880343,"18:30",G("eUkz9prvy17j37T36"),"kaku"),
+  aeon:P("AEON",38.2578072,140.8731221,"20:10",G("1eXAtK1UKP5eRAtL9")),
+  asaichi:P("仙台朝市",38.258796,140.8786683,"09:10",G("xMgKMM14hE3nkMmU7"),"asaichi"),
+  spalS:P("S-PAL 仙台",38.2592214,140.8820344,"11:00",G("5LYosbb8wrUyWr1GA")),
+  dashiro:P("Dashiro",38.258577,140.8749215,"13:00",G("Pq5LfpjYxa2gwRyKA"),"dashiro")
 };
 const ROUTE = {
   1:{_:["sdj","nissan","step","zenjiro","keihan"]},
@@ -1270,6 +1276,7 @@ function loadLeaflet(){
   sc.onerror=()=>{ LLOAD=2; };
   document.head.appendChild(sc);
 }
+function updLab(){ if(LM&&LMEL) LMEL.classList.toggle("hidelab",LM.getZoom()<11); }
 function mountLeaflet(){
   const slot=document.getElementById("lmapslot"); if(!slot) return;
   if(!window.L){ loadLeaflet(); return; }   // SVG fallback stays visible meanwhile
@@ -1280,6 +1287,7 @@ function mountLeaflet(){
       LM=L.map(LMEL,{zoomControl:true,attributionControl:true}).setView([38.0,140.4],8);
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(LM);
       LLAYER=L.layerGroup().addTo(LM);
+      LM.on("zoomend",updLab);
     }
     LM.invalidateSize();
     LLAYER.clearLayers();
@@ -1292,9 +1300,10 @@ function mountLeaflet(){
       if(mapState.day){
         const seen={},order=[];
         keys.forEach((k,i)=>{ if(seen[k]) seen[k].nums.push(i+1); else {seen[k]={k,nums:[i+1]};order.push(seen[k]);} });
-        order.forEach(o=>{
+        order.forEach((o,oi)=>{
           const sel=mapState.sel===o.k;
-          const icon=L.divIcon({className:"lmkw",html:`<span class="lmk${sel?" sel":""}" style="background:${col}">${o.nums.join("·")}</span>`,iconSize:[0,0]});
+          const html=`<div class="lmw${oi%2?" left":""}${sel?" selw":""}"><span class="lmk${sel?" sel":""}" style="background:${col}">${o.nums.join("·")}</span><span class="lml">${esc(PT[o.k].name)}</span></div>`;
+          const icon=L.divIcon({className:"lmkw",html,iconSize:[0,0]});
           L.marker([PT[o.k].lat,PT[o.k].lon],{icon,title:PT[o.k].name,keyboard:true,zIndexOffset:sel?1000:0}).addTo(LLAYER).on("click",()=>{mapState.sel=o.k;renderMap();});
         });
       } else {
@@ -1311,7 +1320,8 @@ function mountLeaflet(){
     } else if(mapState.sel && PT[mapState.sel]){
       LM.panTo([PT[mapState.sel].lat,PT[mapState.sel].lon]);
     }
-    setTimeout(()=>{ if(LM) LM.invalidateSize(); },60);
+    updLab();
+    setTimeout(()=>{ if(LM){ LM.invalidateSize(); updLab(); } },60);
   }catch(err){ console.error("leaflet failed",err); }
 }
 

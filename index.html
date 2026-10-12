@@ -990,7 +990,7 @@ const ABOUT = {
  abe:{q:"阿部蒲鉾店 笹かまぼこ 仙台",kind:"景點",
   text:["仙台名物「笹かまぼこ」（笹形魚板）的人氣品牌，魚漿做成竹葉形狀後烤熟，口感彈牙、帶魚肉香氣。","除了招牌烤魚板，也有炸魚板串，可以邊逛街邊吃。"],
   pick:["烤魚板（笹かまぼこ）","炸魚板串"]},
- anko:{q:"Anko 仙台駅前店 どら焼き",kind:"景點",
+ anko:{q:"Anko 仙台駅前店 どら焼き",kind:"景點",lbl:"伴手禮推薦",ic:"bag",
   text:["以紅豆（豆沙）為主題的和菓子店，店裡的主角是銅鑼燒（どら焼き），餡料有紅豆、抹茶奶餡、奶油等多種口味，可以買幾個邊逛邊吃或帶回家當伴手禮。"],
   pick:["銅鑼燒（紅豆、抹茶等口味）","送人的盒裝伴手禮"]},
  ida:{q:"お茶の井ヶ田 仙台中央本店 ずんだ",kind:"景點",
@@ -1106,7 +1106,7 @@ function koyoPanel(pid,k){
   const links=[...k.links,["搜尋最新見頃","https://www.google.com/search?q="+q],...KOYO_GEN];
   return `<div class="panel a k" id="${pid}" hidden><div class="ph"><span aria-hidden="true">🍁</span> 楓葉情報｜${esc(k.n)}</div>${k.lines.map(x=>`<p>${md(x)}</p>`).join("")}<div class="actions">${links.map(l=>`<a class="btn mini" href="${l[1]}" target="_blank" rel="noopener">${esc(l[0])}</a>`).join("")}</div><p class="src">楓葉每週都在變，以上是出發前的參考，請以當天現場與最新公告為準。</p></div>`;
 }
-const AB_ICON = a=>a.kind==="餐廳"?"bowl":a.kind==="溫泉"?"onsen":a.kind==="購物"?"bag":"leaf";
+const AB_ICON = a=>a.ic?a.ic:a.kind==="餐廳"?"bowl":a.kind==="溫泉"?"onsen":a.kind==="購物"?"bag":"leaf";
 const AB_LABEL = a=>a.lbl?a.lbl:a.kind==="餐廳"?"餐廳介紹":a.kind==="溫泉"?"溫泉介紹":a.kind==="購物"?"百貨介紹":"景點介紹";
 function aboutPanel(pid,k,a){
   const q = encodeURIComponent(a.q);

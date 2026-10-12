@@ -1328,7 +1328,50 @@ function fitView(pts,minSpan,pad){
 }
 function proj(v,lat,lon){return [MW/2+(lon-v.cn)*KX*v.s, MH/2-(lat-v.cl)*v.s];}
 function dayColor(n){return `var(--d${n})`;}
+const TPE = {name:"桃園國際機場 TPE",lat:25.0777,lon:121.2322};
+const FLIGHT_LEGS = [
+  {n:"JX862",d:"10/27（二）",col:1,a:TPE,b:PT.sdj,dep:"11:50",arr:"16:00",from:"桃園 TPE",to:"仙台 SDJ",bow:0.12},
+  {n:"JX863",d:"11/3（二）",col:8,a:PT.sdj,b:TPE,dep:"17:25",arr:"20:35",from:"仙台 SDJ",to:"桃園 TPE",bow:0.12}
+];
+function arcPts(a,b,bow,n){
+  const dx=b.lon-a.lon, dy=b.lat-a.lat, L=Math.hypot(dx,dy), px=-dy/L, py=dx/L, out=[];
+  for(let i=0;i<=n;i++){ const t=i/n, o=Math.sin(Math.PI*t)*bow*L;
+    out.push([a.lat+dy*t+py*o, a.lon+dx*t+px*o]); }
+  return out;
+}
+const OUT_TW = [[121.5,25.3],[122.0,25.0],[121.9,24.5],[121.6,23.5],[121.4,22.8],[120.9,22.0],[120.7,21.9],[120.2,22.6],[120.1,23.1],[120.2,23.8],[120.7,24.5],[121.0,25.0]];
+const OUT_HONSHU = [[141.4,41.4],[140.9,40.5],[141.9,39.5],[141.5,38.3],[141.0,37.0],[140.9,36.0],[140.8,35.7],[139.9,35.0],[139.1,34.7],[138.2,34.6],[137.0,34.6],[136.8,34.3],[135.8,33.5],[135.1,34.0],[135.0,34.6],[133.0,34.4],[131.0,33.9],[130.9,34.5],[132.0,35.5],[133.5,35.6],[135.5,35.7],[136.7,37.0],[137.3,37.5],[138.5,37.5],[139.4,38.2],[139.9,39.5],[140.0,40.5],[140.3,41.2],[141.2,41.2]];
+const OUT_KYUSHU = [[130.0,33.5],[131.0,33.5],[131.7,32.5],[131.5,31.4],[130.7,31.0],[130.2,31.6],[129.9,32.7]];
+const OUT_SHIKOKU = [[132.5,33.9],[134.5,34.2],[134.2,33.3],[133.0,32.8],[132.3,33.3]];
+function mapChips(){
+  return `<div class="mchips" role="group" aria-label="選擇日期"><button class="mchip" aria-pressed="${!mapState.day}" data-mday="0">全部</button><button class="mchip" aria-pressed="${mapState.day===9}" data-mday="9"><i style="background:var(--ink)"></i>✈ 航班</button>`+DAYS.map(d=>`<button class="mchip" aria-pressed="${mapState.day===d.n}" data-mday="${d.n}"><i style="background:${dayColor(d.n)}"></i>D${d.n} ${d.date}</button>`).join("")+`</div>`;
+}
+function renderFlightMap(){
+  const v=fitView([{lat:21.3,lon:119.6},{lat:41.3,lon:142.4}],0,12), F=x=>x.toFixed(1);
+  const pr=(lo,la)=>proj(v,la,lo).map(F).join(",");
+  let s=`<svg class="mapsvg" viewBox="0 0 ${MW} ${MH}" role="img" aria-label="桃園與仙台的航班示意地圖"><rect width="${MW}" height="${MH}" fill="var(--sea)"/>`;
+  [OUT_TW,OUT_HONSHU,OUT_KYUSHU,OUT_SHIKOKU].forEach(poly=>{ s+=`<polygon points="${poly.map(([lo,la])=>pr(lo,la)).join(" ")}" fill="var(--land)" stroke="var(--line)" stroke-width="1"/>`; });
+  [["台灣",121.0,23.6],["九州",130.9,32.4],["四國",133.4,33.6],["本州",137.0,36.2]].forEach(([n,lo,la])=>{ const [x,y]=proj(v,la,lo); s+=`<text x="${F(x)}" y="${F(y)}" class="m-peak" text-anchor="middle">${n}</text>`; });
+  FLIGHT_LEGS.forEach((f,i)=>{
+    const pts=arcPts(f.a,f.b,f.bow,40).map(([la,lo])=>proj(v,la,lo));
+    s+=`<polyline points="${pts.map(q=>q.map(F).join(",")).join(" ")}" fill="none" stroke="${dayColor(f.col)}" stroke-width="3" stroke-linecap="round" stroke-dasharray="${i?"7 5":"0"}"/>`;
+    const m=pts[20], e=pts[36], q=pts[40], ang=Math.atan2(q[1]-e[1],q[0]-e[0]);
+    s+=`<path d="M${F(q[0])} ${F(q[1])}l${F(-9*Math.cos(ang-.45))} ${F(-9*Math.sin(ang-.45))}M${F(q[0])} ${F(q[1])}l${F(-9*Math.cos(ang+.45))} ${F(-9*Math.sin(ang+.45))}" stroke="${dayColor(f.col)}" stroke-width="3" stroke-linecap="round" fill="none"/>`;
+    s+=`<text x="${F(m[0]+(i?10:-10))}" y="${F(m[1]+(i?16:-8))}" class="m-town" text-anchor="${i?"start":"end"}" style="font-weight:700">${f.n}</text>`;
+  });
+  [[TPE,"桃園 TPE",1],[PT.sdj,"仙台 SDJ",-1]].forEach(([a,n,sd])=>{ const [x,y]=proj(v,a.lat,a.lon); s+=`<circle cx="${F(x)}" cy="${F(y)}" r="6" fill="var(--ink)" stroke="var(--surface)" stroke-width="2"/><text x="${F(x+sd*10)}" y="${F(y+(sd>0?18:-9))}" class="m-town" text-anchor="${sd>0?"start":"end"}" style="font-weight:700">${n}</text>`; });
+  s+=`<text x="${MW-10}" y="${MH-10}" class="m-peak" text-anchor="end">示意圖・海岸線與航線為概略</text></svg>`;
+  let h=`<div class="sec"><h2>路線地圖</h2><p class="lead">去回程航班（星宇航空）：桃園 ⇄ 仙台。這是示意圖，航線為概略。</p>`;
+  h+=mapChips();
+  h+=`<div class="mapbox"><div id="lmapslot">${s}</div></div>`;
+  h+=`<h3 style="display:flex;align-items:center;gap:8px"><i class="dsw" style="background:var(--ink)"></i>去回程航班</h3><ol class="mlist2">`;
+  FLIGHT_LEGS.forEach(f=>{ h+=`<li><span class="no" style="background:${dayColor(f.col)}">${f.col===1?"去":"回"}</span><button class="nm" data-goday="${f.col}">${f.d}　${f.n}　${f.from} <em class="mono">${f.dep}</em> → ${f.to} <em class="mono">${f.arr}</em></button></li>`; });
+  h+=`</ol></div>`;
+  document.getElementById("v-map").innerHTML = h;
+  mountLeaflet();
+}
 function renderMap(){
+  if(mapState.day===9){ renderFlightMap(); return; }
   const days = mapState.day ? [mapState.day] : [1,2,3,4,5,6,7,8];
   const allPts = [];
   days.forEach(n=>routeFor(n).forEach(k=>allPts.push(PT[k])));
@@ -1368,7 +1411,7 @@ function renderMap(){
   s += `</svg>`;
   // chips
   let h = `<div class="sec"><h2>路線地圖</h2><p class="lead">每天一種顏色，點日期只看那一天，點地圖上的號碼看地點。底圖來自 OpenStreetMap。標記位置為概略座標、路線畫成直線（不是實際道路），真正導航請按「導航」。</p>`;
-  h += `<div class="mchips" role="group" aria-label="選擇日期"><button class="mchip" aria-pressed="${!mapState.day}" data-mday="0">全部</button>`+DAYS.map(d=>`<button class="mchip" aria-pressed="${mapState.day===d.n}" data-mday="${d.n}"><i style="background:${dayColor(d.n)}"></i>D${d.n} ${d.date}</button>`).join("")+`</div>`;
+  h += mapChips();
   h += `<div class="mapbox"><div id="lmapslot">${s}</div></div>`;
   if(mapState.day){
     const d=DAYS[mapState.day-1];
@@ -1379,7 +1422,7 @@ function renderMap(){
     keys.forEach((k,i)=>{ const p=PT[k]; h+=`<li class="${mapState.sel===k?"on":""}"><span class="no" style="background:${dayColor(d.n)}">${i+1}</span><button class="nm" data-mk="${k}">${esc(p.name)}${p.t?` <em class="mono">${p.t}</em>`:""}</button>${p.link?`<a class="btn mini" href="${p.link}" target="_blank" rel="noopener">${icon("pin")}導航</a>`:""}</li>`; });
     h += `</ol>`;
   } else {
-    h += `<ul class="legend2">`+DAYS.map(d=>`<li><button data-mday="${d.n}"><i class="dsw" style="background:${dayColor(d.n)}"></i><b class="mono">D${d.n}</b><span>${d.date}（${d.w}）${esc(dayTitle(d))}</span></button></li>`).join("")+`</ul>`;
+    h += `<ul class="legend2">`+DAYS.map(d=>`<li><button data-mday="${d.n}"><i class="dsw" style="background:${dayColor(d.n)}"></i><b class="mono">D${d.n}</b><span>${d.date}（${d.w}）${esc(dayTitle(d))}</span></button></li>`).join("")+`<li><button data-mday="9"><i class="dsw" style="background:var(--ink)"></i><b class="mono">✈</b><span>去回程航班（桃園 ⇄ 仙台）</span></button></li></ul>`;
   }
   h += `</div>`;
   document.getElementById("v-map").innerHTML = h;
@@ -1413,6 +1456,21 @@ function mountLeaflet(){
     }
     LM.invalidateSize();
     LLAYER.clearLayers();
+    if(mapState.day===9){
+      const fl=[];
+      FLIGHT_LEGS.forEach((f,i)=>{
+        const pts=arcPts(f.a,f.b,f.bow,60); pts.forEach(q=>fl.push(q));
+        L.polyline(pts,{color:lcolor(f.col),weight:4,opacity:0.9,dashArray:i?"9 7":null}).addTo(LLAYER);
+        const m=pts[30];
+        L.marker(m,{icon:L.divIcon({className:"lmkw",html:`<div class="lmw selw"><span class="lml" style="font-weight:700">${f.n}　${f.dep}→${f.arr}</span></div>`,iconSize:[0,0]}),interactive:false}).addTo(LLAYER);
+      });
+      [[TPE,"桃園國際機場 TPE",""],[PT.sdj,"仙台機場 SDJ","left"]].forEach(([a,n,cls])=>{
+        L.marker([a.lat,a.lon],{icon:L.divIcon({className:"lmkw",html:`<div class="lmw selw ${cls}"><span class="lmk" style="background:#25486F">✈</span><span class="lml">${n}</span></div>`,iconSize:[0,0]}),title:n}).addTo(LLAYER);
+      });
+      if(LMDAY!==9){ LMDAY=9; LM.fitBounds(L.latLngBounds(fl),{padding:[30,30]}); }
+      setTimeout(()=>{ if(LM){ LM.invalidateSize(); } },60);
+      return;
+    }
     const days = mapState.day ? [mapState.day] : [1,2,3,4,5,6,7,8];
     const all=[];
     days.forEach(n=>{

@@ -147,6 +147,11 @@ button{font:inherit;color:inherit}
 .panel.a{background:var(--momiji-soft)}
 .panel.a .ph{color:var(--momiji)}
 .btn.a svg{color:var(--momiji)}
+.btn.k .mp{font-size:13px;line-height:1}
+.panel.k{background:var(--momiji-soft);border-left:3px solid var(--momiji)}
+.panel.k .ph{color:var(--momiji)}
+.panel.k .actions{flex-wrap:wrap}
+.panel.k .src{font-size:12px;color:var(--muted);margin-top:6px}
 .btn.photo{background:var(--surface);font-weight:600}
 .btn.photo svg{color:var(--momiji)}
 .pick{margin-top:8px}
@@ -384,8 +389,16 @@ const OKAMA_INFO = [
   "山頂早晨可能接近 0°C 且常起霧，帶防風外套與手套。",
   "**等霧規則**：最晚 10:45 還沒放晴就放棄，不要拖到午後（午後較容易起霧，而且 16:00 後道路封閉）。",
   "**官方資訊**：蔵王ハイライン 2026/10/13–11/3 每天 16:00 至隔天 08:00 夜間封閉，營業到 11/4 16:00（[宮城交通公告](https://www.miyakou.co.jp/info/info-9907/)）。10 月上旬起可能降雪結冰，取車時確認冬季輪胎。",
+  "紅葉狀況：[山形市觀光協會 見頃情報](https://www.kankou.yamagata.yamagata.jp/migoro/migoro.cgi?key=96959294219711)。10/12 更新時蔵王地藏岳山頂附近、中央高原已見頃，溫泉街剛開始轉色。",
   "即時攝影機：[蔵王町 WEB カメラ](https://www.town.zao.miyagi.jp/webcamera.html)"
 ];
+const ZAO_WARN = N("**蔵王エコーライン／ハイライン 道路管制**（蔵王町公告，規制時程 2026/10/8 更新）：\n"
+ +"- **夜間通行止**：2026/10/13 傍晚起至 11/4 前，每天 **17:00 至隔天 08:00**；夜間不能看御釜、也不能通過宮城山形縣界，連雪胎也不行。17:00 前要離開管制區間。\n"
+ +"- **冬期通行止**：2026/11/4 17:00 起至 2027/4/23。\n"
+ +"- **蔵王ハイライン**營業 07:30–17:00（最終入場 16:30；同一公告另一處寫 16:00 前入場，另有宮城交通公告寫 16:00 起封閉），保守起見 16:00 前下山。\n"
+ +"- **臨時通行止**：大雨、降雪、路面結冰、普通輪胎無法通行等，當天 08:00 前判斷並公告，出發前先查。\n"
+ +"- 假日與紅葉季（含封閉前）易塞車，山頂停車場滿了會往宮城側回堵。\n"
+ +"- 資料來源：[蔵王町「蔵王エコーライン・蔵王ハイライン 道路交通情報」](https://www.zao-machi.com/news/257.html)、[宮城交通公告](https://www.miyakou.co.jp/info/info-9907/)。","warn");
 const OKAMA_PARK = [
   "**預設**：停 [Katta 刈田駐車場](https://maps.app.goo.gl/ssqfVMHqzXu74XRk7)，搭 [刈田リフト](https://maps.app.goo.gl/gP2eRMYP7LBgQnqy8)（09:00–16:00，約 7 分，來回 ¥1,000/人，**只收現金**，4 人 ¥4,000；最後售票為關門前 45 分）。",
   "**備案**：開車上山頂，蔵王ハイライン普通車 ¥600（**只收現金**，08:00–16:00），停 [Okama High Line Parking](https://maps.app.goo.gl/euZ3ViVWY5NWdFNPA)（免費），走路 4 分到展望台。"
@@ -409,7 +422,7 @@ const D2_A = [
   S({t:"08:00",title:"退房出發 ホテル京阪 仙台",sub:"飯店地下停車場 07:30 起可出庫。早餐加購 ¥2,200/人（06:30 開）。"}),
   M("car","08:00","約 1 小時 15 分","仙台 → 山寺（約 55 km）。走國道 48 號免費；走高速約省 10 分，通行費約 ¥2,000。"),
   S({t:"09:20",end:"11:50",title:"立石寺（山寺）",ab:"yamadera",dur:"2.5 小時",tag:"景點",key:1,map:G("cWgw5XuHAUznYAbW7"),sub:"08:00–15:30 最後入場、16:30 關閉",
-     info:["山門到奧之院約 1,015 級石階，單程約 40–50 分。入山費用 ¥500/人。"],
+     info:["山門到奧之院約 1,015 級石階，單程約 40–50 分。入山費用 ¥500/人。","紅葉狀況：[山形市觀光協會 見頃情報](https://www.kankou.yamagata.yamagata.jp/migoro/migoro.cgi?key=96959294219711)。10/12 更新時山寺「ほんの少し色付き始め」，例年見頃約 10 月下旬～11 月上旬。"],
      park:["立石寺停車場 ¥400　[地圖](https://maps.app.goo.gl/LbkxtVVZyUmhce8x9)"]}),
   S({t:"11:50",end:"13:00",title:"午餐（待訂）",dur:"1 小時 10 分",tag:"午餐",food:1,sub:"山寺門前，店家待訂。"}),
   M("car","13:00","約 20 分","山寺 → 腰掛庵（開車，估計約 8–10 km；腰掛庵不在山寺門前，不能走路）"),
@@ -422,6 +435,7 @@ const D2_A = [
   S({t:"18:00",title:"旅館晚餐，泡湯休息",tag:"晚餐",food:1})
 ];
 const D2_B1 = [
+  ZAO_WARN,
   S({t:"07:30",title:"退房出發 ホテル京阪 仙台",sub:"早餐加購 ¥2,200/人（06:30 開）。"}),
   M("car","07:30","約 1 小時 30 分","仙台 → Katta 停車場（約 70 km，經東北道、遠刈田、蔵王エコーライン宮城側），高速費約 ¥1,000。"),
   S({t:"09:00",end:"10:30",title:"御釜",ab:"okama",dur:"1.5 小時",tag:"景點",key:1,map:G("55gi6uaFJXcFpaNm7"),places:OKAMA_SPOTS,info:OKAMA_INFO,park:OKAMA_PARK}),
@@ -438,6 +452,7 @@ const D2_B1 = [
   S({t:"18:00",title:"旅館晚餐，泡湯休息",tag:"晚餐",food:1})
 ];
 const D2_B2 = [
+  ZAO_WARN,
   S({t:"07:30",title:"退房出發 ホテル京阪 仙台",sub:"早餐加購 ¥2,200/人（06:30 開）。"}),
   M("car","07:30","約 1 小時 30 分","仙台 → Katta 停車場（約 70 km，經東北道、遠刈田、蔵王エコーライン宮城側），高速費約 ¥1,000。"),
   S({t:"09:00",end:"10:30",title:"御釜",ab:"okama",dur:"1.5 小時",tag:"景點",key:1,map:G("55gi6uaFJXcFpaNm7"),places:OKAMA_SPOTS,info:OKAMA_INFO,park:OKAMA_PARK}),
@@ -450,6 +465,7 @@ const D2_B2 = [
   S({t:"18:00",title:"旅館晚餐，泡湯休息",tag:"晚餐",food:1})
 ];
 const D2_B3 = [
+  ZAO_WARN,
   N("**前一晚先處理停車**：飯店地下車庫 07:30 才開。飯店 PDF 上的 Central Park Entatsu 停車場看起來 06:00 起可出庫，請到櫃檯確認，必要時 10/27 晚上改停那裡。這天不加購早餐，改買超商。","warn"),
   S({t:"06:30",title:"出發",sub:"超商早餐。"}),
   M("car","06:30","約 1 小時 30 分","仙台 → 蔵王ハイライン入口（約 70 km），高速費約 ¥1,000。"),
@@ -471,6 +487,7 @@ const D2_B3 = [
 
 /* ---- Day 4 variants ---- */
 const D4_A = [
+  ZAO_WARN,
   N("07:30 先看[蔵王町 WEB カメラ](https://www.town.zao.miyagi.jp/webcamera.html)，霧蓋住也先出發，路上再看。","blue"),
   S({t:"07:40",title:"出發（山形站前）",sub:"車在香澄町第２，07:00–07:40 約 ¥200。"}),
   M("car","07:40","約 1 小時 15 分","山形站前 → Katta 停車場（約 40 km，經上山、蔵王エコーライン）"),
@@ -494,7 +511,7 @@ const D4_B = [
   S({t:"08:30",title:"出發（山形站前）",sub:"07:00–08:30 停車約 ¥300。"}),
   M("car","08:30","約 30 分","山形站前 → 山寺（約 15 km）"),
   S({t:"09:15",end:"11:45",title:"立石寺（山寺）",ab:"yamadera",dur:"2.5 小時",tag:"景點",key:1,map:G("cWgw5XuHAUznYAbW7"),sub:"08:00–15:30 最後入場、16:30 關閉",
-     info:["山門到奧之院約 1,015 級石階，單程約 40–50 分。入山費用 ¥500/人。"],park:["立石寺停車場 ¥400　[地圖](https://maps.app.goo.gl/LbkxtVVZyUmhce8x9)"]}),
+     info:["山門到奧之院約 1,015 級石階，單程約 40–50 分。入山費用 ¥500/人。","紅葉狀況：[山形市觀光協會 見頃情報](https://www.kankou.yamagata.yamagata.jp/migoro/migoro.cgi?key=96959294219711)。10/12 更新時山寺「ほんの少し色付き始め」，例年見頃約 10 月下旬～11 月上旬。"],park:["立石寺停車場 ¥400　[地圖](https://maps.app.goo.gl/LbkxtVVZyUmhce8x9)"]}),
   S({t:"11:45",end:"12:45",title:"午餐（待訂）",dur:"1 小時",tag:"午餐",food:1,sub:"山寺門前，店家待訂。"}),
   M("car","12:45","約 20 分","山寺 → 腰掛庵（開車，估計約 8–10 km；腰掛庵不在山寺門前，不能走路）"),
   S({t:"13:05",end:"13:20",title:"腰掛庵",ab:"koshikake",dur:"15 分",tag:"甜點",food:1,map:G("miQe4UKmMTkoYQDeA"),sub:"10/30 週五有營業（09:30–17:00，賣完即止）",park:["門口有工作人員指引停車。"]}),
@@ -588,7 +605,13 @@ const DAYS = [
 { n:6, date:"11/1", w:"日", iso:"2026-11-01", title:"只見川・五色沼・磐梯吾妻・還車", hotel:"アルモントホテル 仙台", sun:"16:45", mode:"自駕（晚上還車）",
   lead:"全天提早出發，讓五色沼有 2 小時；16:50 前離開高湯閘門，避開 17:00 夜間封閉。",
   items:[
-  N("**出發前一晚查**磐梯吾妻 Skyline 是否通行（[福島縣道路資訊](https://www.pref.fukushima.lg.jp/sec/41310a/)）。2025 年 11/4 起夜間 17:00–08:00 封閉，11/11 提早冬季封閉。若已封閉，五色沼後直接回仙台。","warn"),
+  N("**磐梯吾妻 Skyline 管制**（出發前一晚再查）：\n"
+   +"- **2026 年度的夜間／冬季封閉公告我還沒找到**（10/12 查詢時尚未公布），以下是去年（2025 年度）的實績，11/1 前後可能開始管制。\n"
+   +"- **夜間通行止め**：2025 年自 11/4 起每天 17:00 至隔天 08:00（[福島縣公告 令和7年度](https://www.pref.fukushima.lg.jp/sec/41035c/bandaiaduma-skyline-r7.html)）。本行程 16:45 前通過高湯閘門就是依這個 17:00 設定。\n"
+   +"- **冬期通行止め**：縣公告原訂 2025/11/14 17:00，實際提前到 2025/11/11（[浄土平情報局](https://x.com/Jododaira_JPN/status/1991663091516592195)）；再前一年是 2024/11/15 17:00（[福島縣道路管理課](https://x.com/fukushima_douro/status/1857333408063787164)）。\n"
+   +"- **結冰會臨時封閉**：2025 年 10/29 8:00 至 10/30 10:00 就曾因路面結冰全線封閉（同上縣公告）。\n"
+   +"- **火山氣體與施工**：高湯閘門起算 12.8 km 處測到火山性氣體超標時，浄土平至不動沢之間會封閉；部分區段目前單向交替通行；紅葉期道路很擁擠，要多留時間（[福島縣 紅葉與道路資訊，令和8年 10/9 現在](https://www.pref.fukushima.lg.jp/uploaded/life/922414_2734130_misc.pdf)）。\n"
+   +"- 若已封閉，五色沼後直接回仙台。","warn"),
   S({t:"07:10",title:"退房（信夫屋）",sub:"不含早餐，吃前一晚買的超商早餐（房內有微波爐）。"}),
   M("car","07:15","約 1 小時 10 分","會津若松 → 第一只見川橋梁（約 60 km，國道 49、252 號）"),
   S({t:"08:25",end:"09:15",title:"第一只見川橋梁ビューポイント",ab:"tadami",dur:"50 分",tag:"景點",key:1,map:G("GjJzVZjpp9W3tLwg9"),
@@ -602,6 +625,7 @@ const DAYS = [
      park:["[裏磐梯物産館 駐車場](https://maps.app.goo.gl/tTi2jtAsgkkv9xCv7)、[桧原湖第一駐車場](https://maps.app.goo.gl/CkdTPHmM7BQBnpjt5)：都免費。"]}),
   M("car","14:15","約 1 小時","裏磐梯 → 磐梯吾妻 Skyline（先到吾妻小富士，經磐梯吾妻レークライン，約 35 km）"),
   S({t:"15:15",end:"16:30",title:"磐梯吾妻 Skyline",ab:"skyline",dur:"75 分",tag:"景點",key:1,sub:"沿 Skyline 往高湯方向下山，依序停三處；日落前結束。",
+     info:["紅葉狀況與道路管制：[福島縣 磐梯吾妻 紅葉與道路資訊](https://www.pref.fukushima.lg.jp/uploaded/life/922414_2734130_misc.pdf)（令和8年 10/9 現在，會更新）。其他預測見「行李」分頁的紅葉情報。"],
      subs:[
        S({t:"15:15",end:"15:45",title:"吾妻小富士",ab:"kofuji",dur:"30 分",tag:"景點",map:G("kFhssoEDiHsHArL69"),
           park:["[浄土平駐車場](https://maps.app.goo.gl/6YGsCdPst6piEPVa6)：汽車 ¥500。"]}),
@@ -699,7 +723,7 @@ const PACK_PREP = [
   "10/31 信夫屋確定訂房，並電話確認保留車位",
   "10/28 山寺午餐、11/1 仙台晚餐的店家",
   "10/27 晚上看預報，決定 Day 2／Day 4 走排法 A 或 B",
-  "出發前一晚查蔵王エコーライン（御釜日）與磐梯吾妻 Skyline（11/1）",
+  "出發前一晚查蔵王エコーライン（御釜日）與磐梯吾妻 Skyline（11/1）的道路管制與紅葉情報（見下方「實用資訊」）",
   "下載 Google Maps 離線地圖（藏王、鳴子峽、大內宿、裏磐梯）",
   "準備日圓現金，每人約 ¥20,000（刈田リフト、停車場、小店只收現金）",
   "網路（eSIM 或漫遊）",
@@ -734,6 +758,19 @@ const BUDGET = [
 ];
 const RENTAL = 106788, BREAKFAST = 16720, FLIGHT_TWD = 81689;
 
+const KOYO_GEN = [["Weathernews 東北","https://weathernews.jp/koyo/area/tohoku/"],["tenki.jp 紅葉預測","https://tenki.jp/kouyou/"],["日本紅葉預測 kokoto","https://kokoto.pages.dev/koyo/"]];
+const KOYO = {
+ yamadera:{n:"立石寺 山寺",jp:"山寺 立石寺",lines:["**10/12 更新**（山形市觀光協會）：山寺「ほんの少し色付き始め」（剛開始轉色），例年見頃約 10 月下旬～11 月上旬。","行程日 10/28、10/30 接近例年見頃，出發前一週再確認。"],links:[["山形市 見頃情報","https://www.kankou.yamagata.yamagata.jp/migoro/migoro.cgi?key=96959294219711"]]},
+ okama:{n:"御釜・蔵王",jp:"蔵王 御釜 紅葉",lines:["**10/12 更新**（山形市觀光協會，蔵王）：地藏岳山頂附近、中央高原、觀松平・いろは沼附近已「見頃」，溫泉街「色付き始め」（例年 10 月中旬～下旬）。","Weathernews：山形蔵王（中腹付近）見頃時期約 10 月上旬～下旬。","山頂一帶的見頃偏早，10 月底前後主要看湖色與視野，紅葉以山腰到溫泉街為主（依上述時期推估）。"],links:[["山形市 見頃情報","https://www.kankou.yamagata.yamagata.jp/migoro/migoro.cgi?key=96959294219711"]]},
+ ropeway:{n:"藏王纜車",jp:"蔵王ロープウェイ 紅葉",lines:["**10/12 更新**（山形市觀光協會）：地藏岳山頂附近已「見頃」（例年 9 月下旬～10 月上旬），中央高原也已見頃；溫泉街剛開始轉色。","纜車山頂站在地藏山頂一帶，10 月底前後多半已過季，山腰與溫泉街轉色較晚（依上述時期推估）。"],links:[["山形市 見頃情報","https://www.kankou.yamagata.yamagata.jp/migoro/migoro.cgi?key=96959294219711"]]},
+ ginzan:{n:"銀山溫泉",jp:"銀山温泉 紅葉 見頃",lines:["我還沒查到這裡的具體見頃數據，請用下方連結看最新預測。"],links:[]},
+ naruko:{n:"鳴子峽",jp:"鳴子峡 紅葉 見頃",lines:["我還沒查到這裡的具體見頃數據，請用下方連結看最新預測。"],links:[]},
+ ouchi:{n:"大內宿",jp:"大内宿 紅葉 見頃",lines:["我還沒查到這裡的具體見頃數據，請用下方連結看最新預測。"],links:[]},
+ tsuruga:{n:"會津若松・鶴ヶ城",jp:"鶴ヶ城 会津若松 紅葉 見頃",lines:["我還沒查到這裡的具體見頃數據，請用下方連結看最新預測。"],links:[]},
+ tadami:{n:"第一只見川橋梁",jp:"第一只見川橋梁 紅葉 見頃",lines:["我還沒查到這裡的具體見頃數據，請用下方連結看最新預測。"],links:[]},
+ goshiki:{n:"五色沼湖沼群",jp:"五色沼 裏磐梯 紅葉 見頃",lines:["Weathernews：裏磐梯（五色沼付近）見頃時期約 10 月中旬～11 月上旬（頁面未列目前現況）。"],links:[]},
+ skyline:{n:"磐梯吾妻 Skyline",jp:"磐梯吾妻スカイライン 紅葉 見頃",lines:["**福島縣 10/9 版**：浄土平、天狗の庭、不動沢橋周邊等地點有「見ごろ」，也有「色づき始め」的地點（文字擷取無法逐點對應，請看原文）。","Weathernews：磐梯吾妻スカイライン見頃時期約 9 月中旬～10 月下旬，11/1 高處多半已過季，山腰低處較有機會（依此推估）。","紅葉期道路擁擠，另有管制與封閉風險，見本日上方提醒。"],links:[["福島縣 紅葉與道路資訊","https://www.pref.fukushima.lg.jp/uploaded/life/922414_2734130_misc.pdf"]]}
+};
 const ABOUT = {
  yamadera:{q:"山寺 立石寺 五大堂 紅葉",kind:"景點",
   text:["正式名稱「寶珠山 立石寺」，西元 860 年由慈覺大師圓仁開山的天台宗古寺，整座寺院沿著岩山而建，所以被叫做「山寺」。松尾芭蕉在這裡寫下名句「閑さや岩にしみ入る蝉の声」。",
@@ -883,6 +920,7 @@ function md(s){
   let h = esc(s);
   h = h.replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g,(m,t,u)=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`);
   h = h.replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>");
+  h = h.replace(/\n/g,"<br>");
   return h;
 }
 const icon = (id)=>`<svg aria-hidden="true"><use href="#i-${id}"/></svg>`;
@@ -941,7 +979,8 @@ function renderStop(it,nested){
     h += `<div class="subspots">`+it.subs.map(s=>`<div class="subspot">`+renderStop(s,true)+`</div>`).join("")+`</div>`;
   }
   const abs = [it.ab,it.ab2].filter(Boolean).map(k=>[k,ABOUT[k]]).filter(x=>x[1]);
-  const hasAct = it.map||it.info||it.park||abs.length;
+  const ky = KOYO[it.ab];
+  const hasAct = it.map||it.info||it.park||abs.length||ky;
   if(hasAct){
     h += `<div class="actions">`;
     if(it.map) h += `<a class="btn nav" href="${it.map}" target="_blank" rel="noopener">${icon("pin")}導航</a>`;
@@ -949,14 +988,21 @@ function renderStop(it,nested){
       const lbl = abs.length>1 && j>0 ? "三澤屋介紹" : (a.kind==="餐廳"?"餐廳介紹":"景點介紹");
       h += `<button class="btn a" aria-expanded="false" aria-controls="${id}a${j}" data-tg="${id}a${j}">${icon(a.kind==="餐廳"?"bowl":"leaf")}${lbl}</button>`;
     });
+    if(ky) h += `<button class="btn a k" aria-expanded="false" aria-controls="${id}k" data-tg="${id}k"><span class="mp" aria-hidden="true">🍁</span>楓葉情報</button>`;
     if(it.info) h += `<button class="btn i" aria-expanded="false" aria-controls="${id}i" data-tg="${id}i">${icon("info")}補充資訊</button>`;
     if(it.park) h += `<button class="btn p" aria-expanded="false" aria-controls="${id}p" data-tg="${id}p">${icon("park")}停車</button>`;
     h += `</div>`;
     abs.forEach(([k,a],j)=>{ h += aboutPanel(id+"a"+j,k,a); });
+    if(ky) h += koyoPanel(id+"k",ky);
     if(it.info) h += `<div class="panel i" id="${id}i" hidden><div class="ph">${icon("info")}補充資訊</div>${it.info.map(x=>`<p>${md(x)}</p>`).join("")}</div>`;
     if(it.park) h += `<div class="panel p" id="${id}p" hidden><div class="ph">${icon("park")}停車場</div>${it.park.map(x=>`<p>${md(x)}</p>`).join("")}</div>`;
   }
   return h+(nested?`</div>`:`</div></li>`);
+}
+function koyoPanel(pid,k){
+  const q=encodeURIComponent(k.jp+" 見ごろ 2026");
+  const links=[...k.links,["搜尋最新見頃","https://www.google.com/search?q="+q],...KOYO_GEN];
+  return `<div class="panel a k" id="${pid}" hidden><div class="ph"><span aria-hidden="true">🍁</span> 楓葉情報｜${esc(k.n)}</div>${k.lines.map(x=>`<p>${md(x)}</p>`).join("")}<div class="actions">${links.map(l=>`<a class="btn mini" href="${l[1]}" target="_blank" rel="noopener">${esc(l[0])}</a>`).join("")}</div><p class="src">楓葉每週都在變，以上是出發前的參考，請以當天現場與最新公告為準。</p></div>`;
 }
 function aboutPanel(pid,k,a){
   const q = encodeURIComponent(a.q);
@@ -1082,6 +1128,13 @@ function renderPack(){
    <li>網路：eSIM、漫遊或分享器擇一；山區訊號可能不穩，先下載離線地圖。</li>
    <li>換匯：約 1 日圓 ≈ NT$0.20。大店多可刷卡，山區小店與停車場常要現金，每人帶約 ¥20,000。</li>
    <li>保險：旅平險加旅遊不便險。租車已含免責補償與 NOC 理賠。</li></ul></div>
+  <div class="box"><h4 style="margin:0 0 6px">紅葉情報（出發前一週、前一晚再看）</h4><ul class="plain">
+   <li><a href="https://www.pref.fukushima.lg.jp/uploaded/life/922414_2734130_misc.pdf" target="_blank" rel="noopener">福島縣：磐梯吾妻 Skyline 紅葉與道路資訊</a>（令和8年 10/9 版，含封閉與管制）</li>
+   <li><a href="https://www.kankou.yamagata.yamagata.jp/migoro/migoro.cgi?key=96959294219711" target="_blank" rel="noopener">山形市觀光協會：見頃情報「紅葉」</a>（蔵王、山寺、山形市區）</li>
+   <li><a href="https://weathernews.jp/koyo/area/tohoku/" target="_blank" rel="noopener">Weathernews 紅葉預測（東北）</a></li>
+   <li><a href="https://tenki.jp/kouyou/" target="_blank" rel="noopener">tenki.jp 紅葉預測</a></li>
+   <li><a href="https://kokoto.pages.dev/koyo/" target="_blank" rel="noopener">日本紅葉預測（kokoto）</a></li>
+   <li>10/12 的狀況：蔵王地藏岳山頂、中央高原已見頃；山寺剛開始轉色（例年 10 月下旬～11 月上旬）。</li></ul></div>
   <div class="box"><h4 style="margin:0 0 6px">緊急聯絡</h4><ul class="plain">
    <li>警察 <span class="mono">110</span>、消防與救護 <span class="mono">119</span></li>
    <li>日本觀光局訪日旅客熱線（24 小時）<span class="mono">050-3816-2787</span></li>

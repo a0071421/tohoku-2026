@@ -377,7 +377,8 @@ const SHOPS_ZAO = [
   ["よねや百貨店","伴手禮",G("7ZD5T1gJSmnj6UTf9")],
   ["湯旅屋 高湯堂","紀念品",G("PNHs3iexyKVcdAfdA")],
   ["山口餅屋","麻糬",G("343PKH5FiiEcuse7A")],
-  ["酢川溫泉神社","",G("hqNJesxLYj3g5HTD7")]
+  ["酢川溫泉神社","",G("hqNJesxLYj3g5HTD7")],
+  ["悸動山形 米香巧克力球","伴手禮・山形縣限定","","om-tokimeki"]
 ];
 const OKAMA_SPOTS = [
   ["蔵王の御釜 展望台","約 30 分",G("55gi6uaFJXcFpaNm7")],
@@ -541,7 +542,7 @@ const D4_B = [
   S({t:"13:05",end:"13:20",title:"腰掛庵",ab:"koshikake",dur:"15 分",tag:"甜點",food:1,map:G("miQe4UKmMTkoYQDeA"),sub:"10/30 週五有營業（09:30–17:00，賣完即止）",park:["門口有工作人員指引停車。"]}),
   M("car","13:20","約 25 分","腰掛庵 → 山形站前（估計），車停香澄町第２"),
   S({t:"13:45",end:"17:00",title:"山形市區散策",ab:"yamagata7",dur:"3 小時 15 分",tag:"散策",sub:"逛 Day 3 沒逛的那一邊，兩邊都想逛也來得及。",
-     places:[["S-PAL 山形","10:00–19:00",G("UqoB3zv5ptWxFNEVA")],["山形まるごと館 紅之藏","10:00–18:00",G("92oiRd5VGEvMhXux7")],["白露ふうき豆本舗 山田家","09:00–18:00",G("Wix7yuwf5vuUpqK28")],["水の町屋 七日町御殿堰","24 小時",G("aqARtER13uwNyymZ7")]]}),
+     places:[["S-PAL 山形","10:00–19:00",G("UqoB3zv5ptWxFNEVA")],["山形まるごと館 紅之藏","10:00–18:00",G("92oiRd5VGEvMhXux7")],["白露ふうき豆本舗 山田家","09:00–18:00",G("Wix7yuwf5vuUpqK28")],["水の町屋 七日町御殿堰","24 小時",G("aqARtER13uwNyymZ7")],["悸動山形 米香巧克力球","伴手禮・山形站",null,"om-tokimeki"]]}),
   S({t:"17:15",end:"18:15",title:"晚餐：蕎麥麵 庄司屋",ab:"shojiya",tag:"晚餐",food:1,map:G("7xY4vPsLrqY56qw2A"),park:["附設停車場，免費。"]}),
   S({t:"18:25",end:"19:25",title:"DAISO",tag:"購物",map:G("p9XoE8Yn6BJ2KYmD7"),park:["附設停車場，免費。"]}),
   M("car","19:25","約 10 分","DAISO → 山形站前，車停回香澄町第２，步行回飯店。")
@@ -595,7 +596,7 @@ const DAYS = [
   C("16:00–18:10 山形站前散策（二選一）",[
     {name:"七日町一帶",items:[S({t:"16:15",end:"18:10",title:"七日町一帶",ab:"yamagata7",tag:"散策",sub:"停車場步行約 15 分到紅の蔵；山田家 18:00 前要逛完。",
        places:[["山形まるごと館 紅之藏","10:00–18:00 伴手禮",G("92oiRd5VGEvMhXux7")],["白露ふうき豆本舗 山田家","09:00–18:00 豌豆點心",G("Wix7yuwf5vuUpqK28")],["水の町屋 七日町御殿堰","24 小時",G("aqARtER13uwNyymZ7")]]})]},
-    {name:"S-PAL 山形",items:[S({t:"16:15",end:"18:15",title:"S-PAL 山形",tag:"購物",map:G("UqoB3zv5ptWxFNEVA"),sub:"10:00–19:00，在山形站，逛完直接回飯店。",info:["[S-PAL 停車資訊](https://www.s-pal.jp/yamagata/access/)"]})]}
+    {name:"S-PAL 山形",items:[S({t:"16:15",end:"18:15",title:"S-PAL 山形",tag:"購物",map:G("UqoB3zv5ptWxFNEVA"),sub:"10:00–19:00，在山形站，逛完直接回飯店。",places:[["悸動山形 米香巧克力球","伴手禮・山形站",null,"om-tokimeki"]],info:["[S-PAL 停車資訊](https://www.s-pal.jp/yamagata/access/)"]})]}
   ],"沒選的那一邊，10/30 走排法 B 時可以補逛。"),
   M("walk","18:10","約 5–20 分","回飯店（七日町約 15–20 分，S-PAL 約 5 分）"),
   S({t:"18:30",title:"入住 ダイワロイネットホテル 山形駅前",tag:"住宿",stay:1,map:G("dBSips3aStg8N1SN8"),sub:"連住兩晚，含早餐。"}),
@@ -721,7 +722,7 @@ const DAYS = [
   M("walk","10:30","約 10 分","朝市 → 仙台站一帶百貨"),
   S({t:"11:00",end:"12:30",title:"百貨總匯（多種選擇）",dur:"1.5 小時",tag:"購物",sub:"最後採買伴手禮。依想逛的店與剩餘時間挑選、串著逛。",
      places:[["S-PAL 仙台 本館・東館","西口，和車站共構",G("5LYosbb8wrUyWr1GA"),"spal"],["S-PAL Ⅱ（二館）","","https://www.google.com/maps/search/?api=1&query=S-PAL II 仙台","spal2"],["仙台車站","站內商店",G("rm8EAD3wuLUzD69a9"),"sendaist"],["ずんだ茶寮 シェイクエクスプレス店","仙台車站 3 樓・毛豆奶昔（沒喝到機場也有）",G("BtwYn2bc28NFucudA"),null,"sub"],["PARCO 本館","",G("y4xjKo3QgF3yZvo38"),"parco"],["PARCO 2","",G("hdHGLxeAzHpLnJaq8"),"parco2"],["LoFt","","https://www.google.com/maps/search/?api=1&query=仙台ロフト","loft"],["AER","",G("u4EQuyWveeyuvwav5"),"aer"],["Yodobashi（ヨドバシカメラ）","車站東口","https://www.google.com/maps/search/?api=1&query=ヨドバシカメラ マルチメディア仙台","yodobashi"]],
-     subs:[S({title:"伴手禮清單",tag:"伴手禮",sub:"機場與車站都買得到，每項點開有照片與購買地點。",places:[["購買地點總覽","機場・車站","","om-where"],["S-PAL 東館 2F 伊達のこみち","人較少、種類齊全",G("TnkX3xp4VFmNv5Ud7"),"om-date-komichi"],["Calbee 青森富士蘋果乾","機場","","om-calbee"],["喜久水庵 喜久福","冷凍鮮奶油冰大福・機場、車站","","om-kikufuku"],["萩の月","機場、車站","","om-hagi"],["笹蒲鉾（魚板）","機場、車站","","om-sasa"],["毛豆泥奶昔巧克力夾心餅乾","機場、車站","","om-zsand"],["ずんだ茶寮 毛豆泥麻糬","車站、機場","","om-zmochi"],["KitKat 毛豆奶昔風味","機場、車站","","om-kitkat"],["悸動山形 米香巧克力球","山形站、藏王溫泉街","","om-tokimeki"],["伊達正夢 烤飯糰仙貝","仙台車站","","om-date"],["榮泉堂 奶油紅豆最中","機場「萩」、車站、S-PAL","","om-eisen"]]})]}),
+     subs:[S({title:"伴手禮清單",tag:"伴手禮",sub:"機場與車站都買得到，每項點開有照片與購買地點。",places:[["購買地點總覽","機場・車站","","om-where"],["S-PAL 東館 2F 伊達のこみち","人較少、種類齊全",G("TnkX3xp4VFmNv5Ud7"),"om-date-komichi"],["Calbee 青森富士蘋果乾","機場","","om-calbee"],["喜久水庵 喜久福","冷凍鮮奶油冰大福・機場、車站","","om-kikufuku"],["萩の月","機場、車站","","om-hagi"],["笹蒲鉾（魚板）","機場、車站","","om-sasa"],["毛豆泥奶昔巧克力夾心餅乾","機場、車站","","om-zsand"],["ずんだ茶寮 毛豆泥麻糬","車站、機場","","om-zmochi"],["KitKat 毛豆奶昔風味","機場、車站","","om-kitkat"],["伊達正夢 烤飯糰仙貝","仙台車站","","om-date"],["榮泉堂 奶油紅豆最中","機場「萩」、車站、S-PAL","","om-eisen"]]})]}),
   M("walk","12:30","約 10 分","百貨 → Dashiro"),
   S({t:"13:00",end:"14:00",title:"午餐：Dashiro",ab:"dashiro",dur:"約 1 小時",tag:"午餐",food:1,map:G("Pq5LfpjYxa2gwRyKA"),sub:"拉麵"}),
   M("walk","14:00","約 10 分","Dashiro → 取行李（A：回飯店櫃檯；B：仙台車站置物櫃）"),
@@ -992,7 +993,7 @@ const ABOUT = {
   text:["**KitKat × ずんだ茶寮 毛豆奶昔風味**\n¥1,069／9 入（依圖片標示）。\n**購買地點**\n・**仙台機場**：2F 出境大廳「萩」（[地圖](https://maps.app.goo.gl/xEzwfsZJaEBQYeRn7)）\n・**JR 仙台站**：2 樓，緊鄰新幹線檢票口（地圖：[土產店 ①](https://maps.app.goo.gl/oJdR89qV2mf3dfWE8)、[土產店 ②](https://maps.app.goo.gl/yW9aAev3bkcxvadv9)）"],
   pick:[]},
  "om-tokimeki":{q:"ときめいて山形 米菓チョコレート つや姫",kind:"購物",lbl:"介紹",ic:"bag",
-  text:["**悸動山形 米香巧克力球（ときめいて山形）**\n¥540／6 入（依圖片標示）。山形縣產つや姫米，山形縣限定販售。\n**購買地點**\n・**JR 山形站**\n・**藏王溫泉街**\n行程會先經過山形站與藏王溫泉街，可以在那邊順路買，不用留到最後一天。"],
+  text:["**悸動山形 米香巧克力球（ときめいて山形）**\n¥540／6 入（依圖片標示）。山形縣產つや姫米，山形縣限定販售。\n**購買地點**\n・**JR 山形站**\n・**藏王溫泉街**"],
   pick:[]},
  "om-date":{q:"伊達正夢 焼きむすびせんべい 仙台",kind:"購物",lbl:"介紹",ic:"bag",
   text:["**伊達正夢 烤飯糰仙貝（だて正夢 焼きむすびせんべい）**\n¥702／8 入（依圖片標示）。\n**購買地點**\n・**JR 仙台站**（2 樓，緊鄰新幹線檢票口一帶）"],

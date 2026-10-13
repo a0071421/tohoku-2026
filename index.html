@@ -1607,7 +1607,11 @@ document.addEventListener("click",e=>{
   const c = e.target.closest("[data-choice]"); if(c){state.choice[c.dataset.choice]=+c.dataset.j;store.set("choice",state.choice);renderDays();return;}
   const z = e.target.closest("[data-zoom]"); if(z){const x=IMGS[z.dataset.zoom][+z.dataset.zi];const lb=document.createElement("div");lb.className="lightbox";lb.innerHTML=`<div><img src="${x.src}" alt=""><p>${esc(x.cap)}・點一下關閉</p></div>`;document.body.appendChild(lb);return;}
   const lbx = e.target.closest(".lightbox"); if(lbx){lbx.remove();return;}
-  const tg = e.target.closest("[data-tg]"); if(tg){const p=document.getElementById(tg.dataset.tg);p.hidden=!p.hidden;tg.setAttribute("aria-expanded",String(!p.hidden));return;}
+  const tg = e.target.closest("[data-tg]"); if(tg){const p=document.getElementById(tg.dataset.tg);const opening=p.hidden;
+    const top0=tg.getBoundingClientRect().top;
+    if(opening) document.querySelectorAll("[data-tg]").forEach(o=>{if(o!==tg){const q=document.getElementById(o.dataset.tg);if(q&&!q.hidden){q.hidden=true;o.setAttribute("aria-expanded","false");}}});
+    p.hidden=!opening;tg.setAttribute("aria-expanded",String(opening));
+    if(opening){const d=tg.getBoundingClientRect().top-top0;if(Math.abs(d)>1)window.scrollBy(0,d);}return;}
 });
 document.addEventListener("change",e=>{
   const cb = e.target.closest("[data-ck]"); if(!cb) return;

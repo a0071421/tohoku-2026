@@ -582,9 +582,8 @@ const DAYS = [
   S({t:"10:20",title:"從車庫出發",sub:"最晚 10:20 出發，才趕得上 12:00 的午餐。車可停到約 13:00，晚走的話要壓縮鳴子峽的時間。"}),
   M("car","10:20","約 1 小時 40 分","銀山溫泉 → 鳴子峽中山平側（約 70 km，國道 13、47 號，無高速）"),
   S({t:"12:00",end:"12:30",title:"午餐",dur:"30 分",tag:"午餐",food:1,sub:"三家擇一，依當天想吃的東西決定。清和、ゑがほ食堂在鳴子溫泉街，要另外抓移動與停車時間。",
-     places:[["鳴子峡レストハウス","菇菇湯　08:00–17:00",G("LPZR43FaPTsuD5P57"),"narukorest"],["焼肉食堂 清和 鳴子店","燒肉　11:00–14:00、17:00–22:00",G("EzA1jQtipNV5RWL26"),"seiwa"],["ゑがほ食堂","食堂　09:00–16:00、17:00–20:00",G("CQo3DV1c99jS4dct6"),"egao"]],
-     subsLast:1,subs:[S({title:"點心：餅処 深瀬",ab:"fukase",tag:"點心",food:1,map:G("H3FL9U5mZ1kcdkPE6"),sub:"栗だんご（鳴子名物）。營業 09:00–17:00。"})],
-     park:["鳴子峡レストハウス：[鳴子峡中山平側 第二駐車場](https://maps.app.goo.gl/YkJzr1SKJ6gH1WHP8)：¥500（秋季限定，小型車費率；SERENA 若算普通車請到場確認）。紅葉季可能客滿，建議早點到。","清和、ゑがほ食堂、餅処 深瀬（鳴子溫泉街）：都停[湯めぐり駐車場（附無障礙廁所）](https://maps.app.goo.gl/iPRfCLBXBA7QtjiF6)，免費。"]}),
+     places:[["鳴子峡レストハウス","菇菇湯　08:00–17:00",G("LPZR43FaPTsuD5P57"),"narukorest",null,null,["[鳴子峡中山平側 第二駐車場](https://maps.app.goo.gl/YkJzr1SKJ6gH1WHP8)：¥500（秋季限定，小型車費率；SERENA 若算普通車請到場確認）。紅葉季可能客滿，建議早點到。"]],["焼肉食堂 清和 鳴子店","燒肉　11:00–14:00、17:00–22:00",G("EzA1jQtipNV5RWL26"),"seiwa",null,null,["[湯めぐり駐車場（附無障礙廁所）](https://maps.app.goo.gl/iPRfCLBXBA7QtjiF6)：免費。"]],["ゑがほ食堂","食堂　09:00–16:00、17:00–20:00",G("CQo3DV1c99jS4dct6"),"egao",null,null,["[湯めぐり駐車場（附無障礙廁所）](https://maps.app.goo.gl/iPRfCLBXBA7QtjiF6)：免費。"]]],
+     subsLast:1,subs:[S({title:"點心：餅処 深瀬",ab:"fukase",tag:"點心",food:1,map:G("H3FL9U5mZ1kcdkPE6"),sub:"栗だんご（鳴子名物）。營業 09:00–17:00。",park:["[湯めぐり駐車場（附無障礙廁所）](https://maps.app.goo.gl/iPRfCLBXBA7QtjiF6)：免費。"]})]}),
 
   S({t:"12:30",end:"14:00",title:"鳴子峽",ab:"naruko",dur:"1.5 小時",tag:"紅葉",key:1,map:G("Xg3BH8GoSWmf4NGA9"),sub:"沿遊步道賞紅葉，時間不夠可走一段後折返。"}),
   M("car","14:00","約 2 小時","鳴子峽 → 山形站前（約 100 km）。一般道免費；部分走高速約 ¥0–1,500。"),
@@ -1160,7 +1159,7 @@ function renderStop(it,nested){
   if(it.places){
     h += `<ul class="places">`+it.places.map(p=>{
       const a = p[3]&&ABOUT[p[3]], pid = a?id+"pl"+p[3]:"";
-      return `<li${p[4]?` class="${p[4]}"`:""}><span>${p[4]==="sub"?`<b class="arr">↳</b> `:""}${esc(p[0])}${p[1]?` <em>${esc(p[1])}</em>`:""}</span><span class="pbtns">${a?`<button class="btn a mini" aria-expanded="false" aria-controls="${pid}" data-tg="${pid}">${icon(AB_ICON(a))}${p[5]||AB_LABEL(a)}</button>`:""}${p[2]?`<a class="btn mini" href="${p[2]}" target="_blank" rel="noopener">${icon("pin")}地圖</a>`:""}</span>${a?aboutPanel(pid,p[3],a):""}</li>`;
+      return `<li${p[4]?` class="${p[4]}"`:""}><span>${p[4]==="sub"?`<b class="arr">↳</b> `:""}${esc(p[0])}${p[1]?` <em>${esc(p[1])}</em>`:""}</span><span class="pbtns">${a?`<button class="btn a mini" aria-expanded="false" aria-controls="${pid}" data-tg="${pid}">${icon(AB_ICON(a))}${p[5]||AB_LABEL(a)}</button>`:""}${p[2]?`<a class="btn mini" href="${p[2]}" target="_blank" rel="noopener">${icon("pin")}地圖</a>`:""}${p[6]?`<button class="btn p mini" aria-expanded="false" aria-controls="${pid}p" data-tg="${pid}p">${icon("park")}停車</button>`:""}</span>${a?aboutPanel(pid,p[3],a):""}${p[6]?`<div class="panel p" id="${pid}p" hidden><div class="ph">${icon("park")}停車場</div>${p[6].map(x=>`<p>${md(x)}</p>`).join("")}</div>`:""}</li>`;
     }).join("")+`</ul>`;
   }
   const subsHtml = it.subs ? `<div class="subspots">`+it.subs.map(s=>`<div class="subspot">`+renderStop(s,true)+`</div>`).join("")+`</div>` : "";

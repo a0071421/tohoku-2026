@@ -1165,7 +1165,7 @@ const MC = {"8RWn8uBKEBrkZ3XF9":"21 615 767*87","eE8DSEWg4JZMcJDs7":"21 615 719*
 function mcOf(u){ if(!u) return ""; const m=u.match(/goo\.gl\/([\w-]+)/); if(m) return MC[m[1]]||""; return u.includes("裏磐梯レイクリゾート")?MC.LAKE:""; }
 const mcChip = (c,top,label)=>c?(label&&label!=="停車場"
   ?`<button class="btn mini mc top two" data-mc="${c}" aria-label="${esc(label)} MapCode ${c}，點一下複製"><span class="l">${esc(label)}</span><b class="mono">${c}</b></button>`
-  :`<button class="btn mini mc${top?" top":""}" data-mc="${c}" aria-label="MapCode ${c}，點一下複製">${label==="停車場"?"P MapCode ":"MapCode "}<b class="mono">${c}</b></button>`):"";
+  :`<button class="btn mini mc${top?" top":""}" data-mc="${c}" aria-label="MapCode ${c}，點一下複製">${label==="停車場"?"停車場 MapCode ":"MapCode "}<b class="mono">${c}</b></button>`):"";
 function mdPark(x){
   return md(x.replace(/MapCode\s+\d[\d ]*\*?\d*(?:\s*或\s*\d[\d ]*)?[。，]?/g,""));
 }

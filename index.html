@@ -142,7 +142,9 @@ button{font:inherit;color:inherit}
 .btn.mc{border-style:dashed;background:var(--bg);color:var(--ink)}
 .btn.mc b{font-weight:700;letter-spacing:.2px}
 .ctop{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.ctop .tag{margin-bottom:4px}
+.ctop .tag{margin-bottom:4px;flex:none;white-space:nowrap;align-self:flex-start}
+.mccol{display:flex;flex-direction:column;align-items:flex-end;gap:3px;min-width:0}
+.mccol .btn.mc.top{margin-bottom:0;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .btn.mc.top{padding:1px 7px;font-size:11px;font-weight:600;border-radius:6px;margin-bottom:4px;line-height:1.5;min-height:0;max-width:100%}
 .mcode{display:inline-block;margin-left:2px;padding:0 6px;border:1px dashed var(--line);border-radius:6px;font-size:12px;white-space:nowrap;color:var(--muted)}
 .mcode b{color:var(--ink)}
@@ -1153,10 +1155,30 @@ function md(s){
 }
 const MC = {"fiZpAtrLELmEErSRA":"21 615 573*15","Z34E592bpRUVVvB3A":"21 644 800*43","hmXJmco9pz1tx5GS9":"21 615 738*00","cWgw5XuHAUznYAbW7":"62 232 196*14","miQe4UKmMTkoYQDeA":"62 345 574*85","WoVx9yQtqmZwFZTdA":"720 859 034*67","55gi6uaFJXcFpaNm7":"569 459 092*82","ddjrvs5JC1x2o3xg8":"569 572 656*32","hqNJesxLYj3g5HTD7":"569 573 877*00","o63xQ3xCTGE9MkuLA":"569 572 054*71","gHZUSuVTvUecS1G8A":"569 573 528*16","Xg3BH8GoSWmf4NGA9":"317 818 130*86","92oiRd5VGEvMhXux7":"273 595 231*62","UqoB3zv5ptWxFNEVA":"273 594 472*76","dBSips3aStg8N1SN8":"273 594 328*77","82agZHofU2vQrF447":"273 594 298*11","7xY4vPsLrqY56qw2A":"273 564 705*24","p9XoE8Yn6BJ2KYmD7":"273 593 561*51","yhrJ8EZMGSnr7p636":"433 583 680*68","6Nn2ZALQp96PjD4E7":"97 261 178*17","EdMairMXrjGZK6VbA":"97 290 741*83","eERELhVNxktWuNVg7":"97 262 870*53","q5WCURom9Dp9rbjy7":"97 292 153*08","GjJzVZjpp9W3tLwg9":"397 231 031*50","KRmLftM9BUR9YgCr5":"97 263 206*68","5rkkDreuSrzyxhYx7":"413 534 665*87","kFhssoEDiHsHArL69":"475 182 242*78","P2XqP37n1mmoeRRC7":"475 243 669*71","i6v1HGr6T6atiKfR7":"475 274 521*54","4zPnNyYv3WcTFZo98":"475 277 827*20","vsQh3ZdNjiFuJmhu9":"21 616 828*54","njtscpr9vFZWivGY6":"21 615 678*60","RubBewZXHmovPLmG6":"937 003 153*32","WNQ84r4UbEsLkYU96":"21 615 572*00","hWvtNDdsQLQWnTzn7":"21 644 800*68","LbkxtVVZyUmhce8x9":"62 232 029*82","ssqfVMHqzXu74XRk7":"569 457 026*85","gP2eRMYP7LBgQnqy8":"569 458 001*27","euZ3ViVWY5NWdFNPA":"569 428 898*60","3nd2R2cGM43MnB6b6":"569 572 386*13","XDGYiaC3LwtUidnz9":"569 573 731*88","dFGMWLD8AogHYHt38":"569 572 083*18","YkJzr1SKJ6gH1WHP8":"317 817 029*10","iPRfCLBXBA7QtjiF6":"317 851 861*82","jyyiWZUEtGcE2LHF7":"273 595 212*68","qYRcfGqpYHDwEfgF7":"433 583 290*06","FEytoC1UWEwEgKXo8":"97 261 231*65","nhqtHCTNzPGcAdpo6":"97 262 134*00","g3duDaXYXnJMpJCt7":"97 290 684*25","jZf1553Er1kE5yzg9":"97 291 288*13","opk7PzFLk33iRpTB6":"97 291 495*76","gHHieMHz4cMELRpA8":"97 291 280*54","kgYitkyi69w7pRBy6":"397 200 865*48","tTi2jtAsgkkv9xCv7":"413 533 694*63","CkdTPHmM7BQBnpjt5":"413 533 814*88","6YGsCdPst6piEPVa6":"475 181 422*46","LAKE":"413 532 716*57"};
 function mcOf(u){ if(!u) return ""; const m=u.match(/goo\.gl\/([\w-]+)/); if(m) return MC[m[1]]||""; return u.includes("裏磐梯レイクリゾート")?MC.LAKE:""; }
-const mcChip = (c,top)=>c?`<button class="btn mini mc${top?" top":""}" data-mc="${c}" aria-label="MapCode ${c}，點一下複製">MapCode <b class="mono">${c}</b></button>`:"";
+const mcChip = (c,top,label)=>c?`<button class="btn mini mc${top?" top":""}" data-mc="${c}" aria-label="MapCode ${c}，點一下複製">${label==="停車場"?"P MapCode ":label?esc(label)+" ":"MapCode "}<b class="mono">${c}</b></button>`:"";
 function mdPark(x){
-  const h=md(x); if(/MapCode/i.test(x)) return h;
-  return h.replace(/<a href="(https:\/\/maps\.app\.goo\.gl\/[\w-]+)"[^>]*>[^<]*<\/a>/g,(a,u)=>{const c=mcOf(u);return c?a+` <span class="mcode">MapCode <b class="mono">${c}</b></span>`:a;});
+  return md(x.replace(/MapCode\s+\d[\d ]*\*?\d*(?:\s*或\s*\d[\d ]*)?[。，]?/g,""));
+}
+/* 停車場的 MapCode：有停車場連結時放卡片右上角，不放停車場面板內 */
+function parkMcs(it){
+  const lines=[...(it.park||[]),...(it.places||[]).flatMap(p=>p[6]||[])], out=[], seen={};
+  lines.forEach(x=>{
+    const links=[...x.matchAll(/\[([^\]]+)\]\((https:\/\/maps\.app\.goo\.gl\/[\w-]+)\)/g)];
+    const ex=x.match(/MapCode\s+(\d[\d ]*\*?\d*)/);
+    links.forEach(m=>{
+      const c=(ex&&links.length===1)?ex[1].trim():mcOf(m[2]);
+      if(c&&!seen[c]){ seen[c]=1; out.push([m[1],c]); }
+    });
+  });
+  return out;
+}
+function stopMcHtml(it){
+  const pm=parkMcs(it);
+  if(pm.length){
+    const lab=n=>{n=n.replace(/[（(].*$/,"");return n.length>9?n.slice(0,8)+"…":n;};
+    return `<div class="mccol">`+pm.map(([n,c])=>mcChip(c,1,pm.length>1?lab(n):"停車場")).join("")+`</div>`;
+  }
+  return mcChip(mcOf(it.map),1);
 }
 const icon = (id)=>`<svg aria-hidden="true"><use href="#i-${id}"/></svg>`;
 const MODE = {car:["car","開車"],walk:["walk","步行"],train:["train","電車"],bus:["bus","接駁車"],taxi:["taxi","計程車"],rope:["rope","纜車"],plane:["plane","飛機"]};
@@ -1200,7 +1222,7 @@ function renderStop(it,nested){
   const cls = ["row"]; if(it.key) cls.push("key");
   const tagCls = it.food?"food":it.stay?"stay":it.opt?"opt":"";
   let h = nested ? `<div class="card nested">` : `<li class="${cls.join(" ")}"><div class="time">${it.t||""}${it.end?`<small>–${it.end}</small>`:""}</div><div class="node"></div><div class="card">`;
-  { const mcT = mcChip(mcOf(it.map),1);
+  { const mcT = stopMcHtml(it);
     if(it.tag||mcT) h += `<div class="ctop">${it.tag?`<span class="tag ${tagCls}">${esc(it.tag)}</span>`:"<span></span>"}${mcT}</div>`; }
   const durTxt = nested ? [it.t&&it.end?it.t+"–"+it.end:it.t, it.dur].filter(Boolean).join("・") : it.dur;
   h += `<div class="ctitle"><h3>${esc(it.title)}</h3>${durTxt?`<span class="dur">${esc(durTxt)}</span>`:""}</div>`;
@@ -1328,7 +1350,7 @@ function renderMoveView(){
    <li>蔵王ハイライン ¥600、刈田リフト ¥1,000/人、大內宿停車 ¥500 <b>只收現金</b>。</li>
    <li>日落約 16:40–17:00，山路盡量天黑前走完；秋季有熊出沒資訊，步道結伴行動。</li>
    <li>事故或故障：先報警 110 或救護車 119，再聯絡租車公司。</li></ul></div>`;
-  h += `<h3>MapCode</h3><div class="box"><p class="sub" style="margin:0">行程裡每個要開車去的地點、停車場和住宿，都在卡片的「導航」旁、停車場清單或住宿卡上標了 <b>MapCode</b>。點一下會複製（只複製數字與 *）。</p><ul class="tips" style="margin:8px 0 0;padding-left:18px"><li>車機輸入時，<b>*後面兩碼可以不輸入</b>，只輸入前面的數字就會到附近（約 30 m 內）。</li><li>這些代碼是用 Google 地圖上標的座標轉換出來的，不是官方登錄值，和停車場實際入口可能差幾十公尺。到現場以 Google 導航與現場標示為準。</li><li>大內宿、只見川的停車場，行程文字裡另外查到的代碼維持原樣，兩者前六碼相同，只是位置略有差別。</li></ul></div>`;
+  h += `<h3>MapCode</h3><div class="box"><p class="sub" style="margin:0">行程裡開車要去的地點都標了 <b>MapCode</b>，放在卡片右上角，點一下會複製（只複製數字與 *）。有停車場的地點，右上角放的是<b>停車場</b>的 MapCode（因為要導航到停車場），本身的點不另外標；住宿卡放住宿本身。</p><ul class="tips" style="margin:8px 0 0;padding-left:18px"><li>車機輸入時，<b>*後面兩碼可以不輸入</b>，只輸入前面的數字就會到附近（約 30 m 內）。</li><li>這些代碼是用 Google 地圖上標的座標轉換出來的，不是官方登錄值，和停車場實際入口可能差幾十公尺。到現場以 Google 導航與現場標示為準。</li><li>大內宿、只見川的停車場，行程文字裡另外查到的代碼維持原樣，兩者前六碼相同，只是位置略有差別。</li></ul></div>`;
   h += `<h3>每日移動</h3>`;
   DAYS.forEach(d=>{
     const moves = collectMoves(dayItems(d),[],d.n);

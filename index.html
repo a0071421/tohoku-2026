@@ -143,6 +143,12 @@ button{font:inherit;color:inherit}
 .btn.mc b{font-weight:700;letter-spacing:.2px}
 .ctop{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .ctop .tag{margin-bottom:4px;flex:none;white-space:nowrap;align-self:flex-start}
+.ctop2{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:start}
+.ctop2 .cl{min-width:0}
+.ctop2 .ctitle{display:block}
+.ctop2 .ctitle .dur{display:inline-block;margin-top:5px}
+.btn.mc.two{display:inline-flex;flex-direction:column;align-items:flex-start;gap:0;padding:2px 7px;line-height:1.3}
+.btn.mc.two .l{font-size:10px;font-weight:500;color:var(--muted);max-width:150px;overflow:hidden;text-overflow:ellipsis}
 .mccol{display:flex;flex-direction:column;align-items:flex-end;gap:3px;min-width:0}
 .mccol .btn.mc.top{margin-bottom:0;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .btn.mc.top{padding:1px 7px;font-size:11px;font-weight:600;border-radius:6px;margin-bottom:4px;line-height:1.5;min-height:0;max-width:100%}
@@ -580,7 +586,7 @@ const DAYS = [
   M("car","21:00","約 10 分","二日町 → 飯店（約 2.5 km）"),
   S({t:"21:10",title:"入住 ホテル京阪 仙台",tag:"住宿",stay:1,map:G("hmXJmco9pz1tx5GS9"),sub:"仙台市青葉区中央 3 丁目　TEL 022-263-0321",
      info:["**加購早餐**：10/28 早上的自助早餐 ¥2,200/人（06:30–10:00），入住時在櫃檯加購。走 B3（06:30 出發）時不加購。"],
-     park:["Hot House Aobadori 1（飯店地下停車場）：過夜約 ¥1,300–1,600，先在櫃檯買停車票並領 ¥200 折扣券；先到先停、不能預約；高車頂車位限高 2.05 m、限寬 1.9 m；22:00 後無法進出。備案：Central Park Entatsu Parking（270 台）。[停車 PDF](https://sendai.hotelkeihan.co.jp/wp-content/uploads/sites/180/2026/05/%E3%80%90%E8%8B%B1%E8%AA%9E%E3%80%912026.04.01%E9%A7%90%E8%BB%8A%E5%A0%B4%E6%A1%88%E5%86%854%E6%9C%88%E3%81%8B%E3%82%89%EF%BC%89.pdf)"]}),
+     park:["[Hot House Aobadori 1](https://maps.app.goo.gl/8RWn8uBKEBrkZ3XF9)（飯店地下停車場）：過夜約 ¥1,300–1,600，先在櫃檯買停車票並領 ¥200 折扣券；先到先停、不能預約；高車頂車位限高 2.05 m、限寬 1.9 m；22:00 後無法進出。備案：[Central Park Entatsu Parking](https://maps.app.goo.gl/eE8DSEWg4JZMcJDs7)（270 台）。[停車 PDF](https://sendai.hotelkeihan.co.jp/wp-content/uploads/sites/180/2026/05/%E3%80%90%E8%8B%B1%E8%AA%9E%E3%80%912026.04.01%E9%A7%90%E8%BB%8A%E5%A0%B4%E6%A1%88%E5%86%854%E6%9C%88%E3%81%8B%E3%82%89%EF%BC%89.pdf)"]}),
   N("今晚看 10/28 與 10/30 的天氣預報和[御釜攝影機](https://www.town.zao.miyagi.jp/webcamera.html)，決定明天走排法 A 或 B（見 Day 2）。","blue")
 ]},
 { n:2, date:"10/28", w:"三", iso:"2026-10-28", title:"山寺・銀山溫泉", hotel:"銀山溫泉 昭和館", sun:"16:50", mode:"自駕",
@@ -765,13 +771,15 @@ const DAYS = [
 const HOTELS = [
   {d:"10/27（二）",nights:"1 晚",name:"ホテル京阪 仙台",map:G("hmXJmco9pz1tx5GS9"),link:"https://www.booking.com/hotel/jp/keihan-sendai.zh-tw.html",price:29600,
    room:"雙人房 ×2",meal:"不含早餐；10/28 早上加購 ¥2,200/人（自助式 06:30–10:00）。走 B3 時不加購。",addr:"仙台市青葉区中央 3 丁目　TEL 022-263-0321",
-   park:"地下停車場先到先停，過夜約 ¥1,300–1,600，先在櫃檯買票；07:30–22:00 可進出。"},
+   park:"地下停車場先到先停，過夜約 ¥1,300–1,600，先在櫃檯買票；07:30–22:00 可進出。備案：Central Park Entatsu Parking（270 台）。",
+   pk:[["Hot House Aobadori 1","8RWn8uBKEBrkZ3XF9"],["Central Park Entatsu","eE8DSEWg4JZMcJDs7"]]},
   {d:"10/28（三）",nights:"1 晚",name:"銀山溫泉 昭和館",map:G("WoVx9yQtqmZwFZTdA"),price:110600,
    room:"街並側客室・大正ロマンプラン ×2",meal:"一泊二食。晚餐 18:00，須在 18:00 前入住。早餐約 07:30–08:30，通常在一樓（依當天旅館安排為準）。",checkin:"15:00",
    park:"專用車庫免費；溫泉街禁止車輛進入，抵達前先聯絡旅館。",inNote:SHOWAKAN_IN,outNote:SHOWAKAN_OUT,ab:"showakan"},
   {d:"10/29–10/30",nights:"2 晚",name:"ダイワロイネットホテル 山形駅前",map:G("dBSips3aStg8N1SN8"),price:76598,
    room:"豪華國王大床房 ×2",meal:"含早餐。",
-   park:"ザ・パーク香澄町第２，夜間最大 ¥500、日間最大 ¥800。"},
+   park:"ザ・パーク香澄町第２，夜間最大 ¥500、日間最大 ¥800。",
+   pk:[["ザ・パーク香澄町第２","jyyiWZUEtGcE2LHF7"]]},
   {d:"10/31（六）",nights:"1 晚",name:"サムライ シティ イン 信夫屋",map:G("eERELhVNxktWuNVg7"),price:30000,
    room:"和洋室 26 m²，4 人一間，衛浴分離、迷你廚房",meal:"不含早餐。",checkin:"14:00／退房 10:00",addr:"會津若松市東栄町 5-19 菅家ビル　TEL 070-2483-1515",
    park:"附設免費停車場，車位約 4 台，先電話確認保留。田季野步行約 5 分。"},
@@ -1153,9 +1161,11 @@ function md(s){
   h = h.replace(/\n/g,"<br>");
   return h;
 }
-const MC = {"fiZpAtrLELmEErSRA":"21 615 573*15","Z34E592bpRUVVvB3A":"21 644 800*43","hmXJmco9pz1tx5GS9":"21 615 738*00","cWgw5XuHAUznYAbW7":"62 232 196*14","miQe4UKmMTkoYQDeA":"62 345 574*85","WoVx9yQtqmZwFZTdA":"720 859 034*67","55gi6uaFJXcFpaNm7":"569 459 092*82","ddjrvs5JC1x2o3xg8":"569 572 656*32","hqNJesxLYj3g5HTD7":"569 573 877*00","o63xQ3xCTGE9MkuLA":"569 572 054*71","gHZUSuVTvUecS1G8A":"569 573 528*16","Xg3BH8GoSWmf4NGA9":"317 818 130*86","92oiRd5VGEvMhXux7":"273 595 231*62","UqoB3zv5ptWxFNEVA":"273 594 472*76","dBSips3aStg8N1SN8":"273 594 328*77","82agZHofU2vQrF447":"273 594 298*11","7xY4vPsLrqY56qw2A":"273 564 705*24","p9XoE8Yn6BJ2KYmD7":"273 593 561*51","yhrJ8EZMGSnr7p636":"433 583 680*68","6Nn2ZALQp96PjD4E7":"97 261 178*17","EdMairMXrjGZK6VbA":"97 290 741*83","eERELhVNxktWuNVg7":"97 262 870*53","q5WCURom9Dp9rbjy7":"97 292 153*08","GjJzVZjpp9W3tLwg9":"397 231 031*50","KRmLftM9BUR9YgCr5":"97 263 206*68","5rkkDreuSrzyxhYx7":"413 534 665*87","kFhssoEDiHsHArL69":"475 182 242*78","P2XqP37n1mmoeRRC7":"475 243 669*71","i6v1HGr6T6atiKfR7":"475 274 521*54","4zPnNyYv3WcTFZo98":"475 277 827*20","vsQh3ZdNjiFuJmhu9":"21 616 828*54","njtscpr9vFZWivGY6":"21 615 678*60","RubBewZXHmovPLmG6":"937 003 153*32","WNQ84r4UbEsLkYU96":"21 615 572*00","hWvtNDdsQLQWnTzn7":"21 644 800*68","LbkxtVVZyUmhce8x9":"62 232 029*82","ssqfVMHqzXu74XRk7":"569 457 026*85","gP2eRMYP7LBgQnqy8":"569 458 001*27","euZ3ViVWY5NWdFNPA":"569 428 898*60","3nd2R2cGM43MnB6b6":"569 572 386*13","XDGYiaC3LwtUidnz9":"569 573 731*88","dFGMWLD8AogHYHt38":"569 572 083*18","YkJzr1SKJ6gH1WHP8":"317 817 029*10","iPRfCLBXBA7QtjiF6":"317 851 861*82","jyyiWZUEtGcE2LHF7":"273 595 212*68","qYRcfGqpYHDwEfgF7":"433 583 290*06","FEytoC1UWEwEgKXo8":"97 261 231*65","nhqtHCTNzPGcAdpo6":"97 262 134*00","g3duDaXYXnJMpJCt7":"97 290 684*25","jZf1553Er1kE5yzg9":"97 291 288*13","opk7PzFLk33iRpTB6":"97 291 495*76","gHHieMHz4cMELRpA8":"97 291 280*54","kgYitkyi69w7pRBy6":"397 200 865*48","tTi2jtAsgkkv9xCv7":"413 533 694*63","CkdTPHmM7BQBnpjt5":"413 533 814*88","6YGsCdPst6piEPVa6":"475 181 422*46","LAKE":"413 532 716*57"};
+const MC = {"8RWn8uBKEBrkZ3XF9":"21 615 767*87","eE8DSEWg4JZMcJDs7":"21 615 719*52","fiZpAtrLELmEErSRA":"21 615 573*15","Z34E592bpRUVVvB3A":"21 644 800*43","hmXJmco9pz1tx5GS9":"21 615 738*00","cWgw5XuHAUznYAbW7":"62 232 196*14","miQe4UKmMTkoYQDeA":"62 345 574*85","WoVx9yQtqmZwFZTdA":"720 859 034*67","55gi6uaFJXcFpaNm7":"569 459 092*82","ddjrvs5JC1x2o3xg8":"569 572 656*32","hqNJesxLYj3g5HTD7":"569 573 877*00","o63xQ3xCTGE9MkuLA":"569 572 054*71","gHZUSuVTvUecS1G8A":"569 573 528*16","Xg3BH8GoSWmf4NGA9":"317 818 130*86","92oiRd5VGEvMhXux7":"273 595 231*62","UqoB3zv5ptWxFNEVA":"273 594 472*76","dBSips3aStg8N1SN8":"273 594 328*77","82agZHofU2vQrF447":"273 594 298*11","7xY4vPsLrqY56qw2A":"273 564 705*24","p9XoE8Yn6BJ2KYmD7":"273 593 561*51","yhrJ8EZMGSnr7p636":"433 583 680*68","6Nn2ZALQp96PjD4E7":"97 261 178*17","EdMairMXrjGZK6VbA":"97 290 741*83","eERELhVNxktWuNVg7":"97 262 870*53","q5WCURom9Dp9rbjy7":"97 292 153*08","GjJzVZjpp9W3tLwg9":"397 231 031*50","KRmLftM9BUR9YgCr5":"97 263 206*68","5rkkDreuSrzyxhYx7":"413 534 665*87","kFhssoEDiHsHArL69":"475 182 242*78","P2XqP37n1mmoeRRC7":"475 243 669*71","i6v1HGr6T6atiKfR7":"475 274 521*54","4zPnNyYv3WcTFZo98":"475 277 827*20","vsQh3ZdNjiFuJmhu9":"21 616 828*54","njtscpr9vFZWivGY6":"21 615 678*60","RubBewZXHmovPLmG6":"937 003 153*32","WNQ84r4UbEsLkYU96":"21 615 572*00","hWvtNDdsQLQWnTzn7":"21 644 800*68","LbkxtVVZyUmhce8x9":"62 232 029*82","ssqfVMHqzXu74XRk7":"569 457 026*85","gP2eRMYP7LBgQnqy8":"569 458 001*27","euZ3ViVWY5NWdFNPA":"569 428 898*60","3nd2R2cGM43MnB6b6":"569 572 386*13","XDGYiaC3LwtUidnz9":"569 573 731*88","dFGMWLD8AogHYHt38":"569 572 083*18","YkJzr1SKJ6gH1WHP8":"317 817 029*10","iPRfCLBXBA7QtjiF6":"317 851 861*82","jyyiWZUEtGcE2LHF7":"273 595 212*68","qYRcfGqpYHDwEfgF7":"433 583 290*06","FEytoC1UWEwEgKXo8":"97 261 231*65","nhqtHCTNzPGcAdpo6":"97 262 134*00","g3duDaXYXnJMpJCt7":"97 290 684*25","jZf1553Er1kE5yzg9":"97 291 288*13","opk7PzFLk33iRpTB6":"97 291 495*76","gHHieMHz4cMELRpA8":"97 291 280*54","kgYitkyi69w7pRBy6":"397 200 865*48","tTi2jtAsgkkv9xCv7":"413 533 694*63","CkdTPHmM7BQBnpjt5":"413 533 814*88","6YGsCdPst6piEPVa6":"475 181 422*46","LAKE":"413 532 716*57"};
 function mcOf(u){ if(!u) return ""; const m=u.match(/goo\.gl\/([\w-]+)/); if(m) return MC[m[1]]||""; return u.includes("裏磐梯レイクリゾート")?MC.LAKE:""; }
-const mcChip = (c,top,label)=>c?`<button class="btn mini mc${top?" top":""}" data-mc="${c}" aria-label="MapCode ${c}，點一下複製">${label==="停車場"?"P MapCode ":label?esc(label)+" ":"MapCode "}<b class="mono">${c}</b></button>`:"";
+const mcChip = (c,top,label)=>c?(label&&label!=="停車場"
+  ?`<button class="btn mini mc top two" data-mc="${c}" aria-label="${esc(label)} MapCode ${c}，點一下複製"><span class="l">${esc(label)}</span><b class="mono">${c}</b></button>`
+  :`<button class="btn mini mc${top?" top":""}" data-mc="${c}" aria-label="MapCode ${c}，點一下複製">${label==="停車場"?"P MapCode ":"MapCode "}<b class="mono">${c}</b></button>`):"";
 function mdPark(x){
   return md(x.replace(/MapCode\s+\d[\d ]*\*?\d*(?:\s*或\s*\d[\d ]*)?[。，]?/g,""));
 }
@@ -1165,20 +1175,18 @@ function parkMcs(it){
   lines.forEach(x=>{
     const links=[...x.matchAll(/\[([^\]]+)\]\((https:\/\/maps\.app\.goo\.gl\/[\w-]+)\)/g)];
     const ex=x.match(/MapCode\s+(\d[\d ]*\*?\d*)/);
-    links.forEach(m=>{
+    links.forEach(m=>{ if(/gP2eRMYP7LBgQnqy8/.test(m[2])) return;
       const c=(ex&&links.length===1)?ex[1].trim():mcOf(m[2]);
       if(c&&!seen[c]){ seen[c]=1; out.push([m[1],c]); }
     });
   });
   return out;
 }
+const mcLab=n=>{n=n.replace(/[（(].*$/,"");return n.length>22?n.slice(0,21)+"…":n;};
+function mcColHtml(pm){ return `<div class="mccol">`+pm.map(([n,c])=>mcChip(c,1,pm.length>1?mcLab(n):"停車場")).join("")+`</div>`; }
 function stopMcHtml(it){
   const pm=parkMcs(it);
-  if(pm.length){
-    const lab=n=>{n=n.replace(/[（(].*$/,"");return n.length>9?n.slice(0,8)+"…":n;};
-    return `<div class="mccol">`+pm.map(([n,c])=>mcChip(c,1,pm.length>1?lab(n):"停車場")).join("")+`</div>`;
-  }
-  return mcChip(mcOf(it.map),1);
+  return pm.length?mcColHtml(pm):mcChip(mcOf(it.map),1);
 }
 const icon = (id)=>`<svg aria-hidden="true"><use href="#i-${id}"/></svg>`;
 const MODE = {car:["car","開車"],walk:["walk","步行"],train:["train","電車"],bus:["bus","接駁車"],taxi:["taxi","計程車"],rope:["rope","纜車"],plane:["plane","飛機"]};
@@ -1222,10 +1230,16 @@ function renderStop(it,nested){
   const cls = ["row"]; if(it.key) cls.push("key");
   const tagCls = it.food?"food":it.stay?"stay":it.opt?"opt":"";
   let h = nested ? `<div class="card nested">` : `<li class="${cls.join(" ")}"><div class="time">${it.t||""}${it.end?`<small>–${it.end}</small>`:""}</div><div class="node"></div><div class="card">`;
-  { const mcT = stopMcHtml(it);
-    if(it.tag||mcT) h += `<div class="ctop">${it.tag?`<span class="tag ${tagCls}">${esc(it.tag)}</span>`:"<span></span>"}${mcT}</div>`; }
   const durTxt = nested ? [it.t&&it.end?it.t+"–"+it.end:it.t, it.dur].filter(Boolean).join("・") : it.dur;
-  h += `<div class="ctitle"><h3>${esc(it.title)}</h3>${durTxt?`<span class="dur">${esc(durTxt)}</span>`:""}</div>`;
+  const titleH = `<div class="ctitle"><h3>${esc(it.title)}</h3>${durTxt?`<span class="dur">${esc(durTxt)}</span>`:""}</div>`;
+  const pmL = parkMcs(it), tagH = it.tag?`<span class="tag ${tagCls}">${esc(it.tag)}</span>`:"";
+  if(pmL.length>1){
+    h += `<div class="ctop2"><div class="cl">${tagH}${titleH}</div>${mcColHtml(pmL)}</div>`;
+  } else {
+    const mcT = stopMcHtml(it);
+    if(it.tag||mcT) h += `<div class="ctop">${tagH||"<span></span>"}${mcT}</div>`;
+    h += titleH;
+  }
   if(it.sub) h += `<p class="sub">${md(it.sub)}</p>`;
   if(it.places){
     h += `<ul class="places">`+it.places.map(p=>{
@@ -1369,8 +1383,13 @@ function renderStay(){
   const total = HOTELS.reduce((a,b)=>a+b.price,0);
   let h = `<div class="sec"><h2>住宿</h2><p class="lead">5 間、7 晚，合計 <span class="mono">${yen(total)}</span>（每人約 ${yen(Math.round(total/4))}）。</p><div class="stack" style="margin-top:12px">`;
   HOTELS.forEach((x,hi)=>{
-    h += `<div class="box"><div class="cardhead"><span class="pill">${x.d}・${x.nights}</span>${x.tentative?`<span class="pill warn">暫定</span>`:`<span class="pill ok">已訂</span>`}${mcChip(mcOf(x.map),1)}</div>
-    <h4 style="margin:8px 0 0;font-size:17px">${esc(x.name)}</h4>
+    const pmH = (x.pk||[]).map(([n,id])=>[n,MC[id]]).filter(a=>a[1]);
+    const pills = `<span class="pill">${x.d}・${x.nights}</span>${x.tentative?`<span class="pill warn">暫定</span>`:`<span class="pill ok">已訂</span>`}`;
+    const h4 = `<h4 style="margin:8px 0 0;font-size:17px">${esc(x.name)}</h4>`;
+    h += pmH.length>1
+      ? `<div class="box"><div class="ctop2"><div class="cl"><div class="cardhead">${pills}</div>${h4}</div>${mcColHtml(pmH)}</div>`
+      : `<div class="box"><div class="cardhead">${pills}${mcChip(pmH.length?pmH[0][1]:mcOf(x.map),1,pmH.length?"停車場":"")}</div>${h4}`;
+    h += `
     <dl class="kv"><dt>房型</dt><dd>${esc(x.room)}</dd><dt>費用</dt><dd class="mono">${yen(x.price)}</dd><dt>餐食</dt><dd>${esc(x.meal)}</dd>${x.checkin?`<dt>入住</dt><dd>${esc(x.checkin)}</dd>`:""}${x.addr?`<dt>地址</dt><dd>${esc(x.addr)}</dd>`:""}<dt>停車</dt><dd>${esc(x.park)}</dd></dl>${x.inNote?`<div class="callout blue" style="margin:8px 0"><b>入住注意</b><br>${x.inNote.map(t=>md(t)).join("<br>")}</div>`:""}${x.outNote?`<div class="callout" style="margin:8px 0"><b>退房注意</b><br>${x.outNote.map(t=>md(t)).join("<br>")}</div>`:""}
     <div class="actions"><a class="btn nav" href="${x.map}" target="_blank" rel="noopener">${icon("pin")}導航</a>${x.link?`<a class="btn" href="${x.link}" target="_blank" rel="noopener">訂房頁</a>`:""}${x.ab&&ABOUT[x.ab]?`<button class="btn a" aria-expanded="false" aria-controls="hot${hi}a" data-tg="hot${hi}a">${icon(AB_ICON(ABOUT[x.ab]))}${AB_LABEL(ABOUT[x.ab])}</button>`:""}</div>${x.ab&&ABOUT[x.ab]?aboutPanel("hot"+hi+"a",x.ab,ABOUT[x.ab]):""}</div>`;
   });

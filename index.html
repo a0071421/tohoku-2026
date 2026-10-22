@@ -139,6 +139,10 @@ button{font:inherit;color:inherit}
 .btn svg{width:15px;height:15px;flex:none}
 .btn.nav{background:var(--ai);border-color:var(--ai);color:var(--surface)}
 .btn.mini{padding:4px 8px;font-size:12px;font-weight:600;flex:none}
+.btn.mc{border-style:dashed;background:var(--bg);color:var(--ink)}
+.btn.mc b{font-weight:700;letter-spacing:.2px}
+.mcode{display:inline-block;margin-left:2px;padding:0 6px;border:1px dashed var(--line);border-radius:6px;font-size:12px;white-space:nowrap;color:var(--muted)}
+.mcode b{color:var(--ink)}
 .btn[aria-expanded="true"]{background:var(--surface-2)}
 .btn.i svg{color:var(--ai)} .btn.p svg{color:var(--kin)}
 .panel{margin-top:8px;border-radius:9px;padding:9px 11px;font-size:13.5px;line-height:1.65}
@@ -1144,6 +1148,13 @@ function md(s){
   h = h.replace(/\n/g,"<br>");
   return h;
 }
+const MC = {"fiZpAtrLELmEErSRA":"21 615 573*15","Z34E592bpRUVVvB3A":"21 644 800*43","hmXJmco9pz1tx5GS9":"21 615 738*00","cWgw5XuHAUznYAbW7":"62 232 196*14","miQe4UKmMTkoYQDeA":"62 345 574*85","WoVx9yQtqmZwFZTdA":"720 859 034*67","55gi6uaFJXcFpaNm7":"569 459 092*82","ddjrvs5JC1x2o3xg8":"569 572 656*32","hqNJesxLYj3g5HTD7":"569 573 877*00","o63xQ3xCTGE9MkuLA":"569 572 054*71","gHZUSuVTvUecS1G8A":"569 573 528*16","Xg3BH8GoSWmf4NGA9":"317 818 130*86","92oiRd5VGEvMhXux7":"273 595 231*62","UqoB3zv5ptWxFNEVA":"273 594 472*76","dBSips3aStg8N1SN8":"273 594 328*77","82agZHofU2vQrF447":"273 594 298*11","7xY4vPsLrqY56qw2A":"273 564 705*24","p9XoE8Yn6BJ2KYmD7":"273 593 561*51","yhrJ8EZMGSnr7p636":"433 583 680*68","6Nn2ZALQp96PjD4E7":"97 261 178*17","EdMairMXrjGZK6VbA":"97 290 741*83","eERELhVNxktWuNVg7":"97 262 870*53","q5WCURom9Dp9rbjy7":"97 292 153*08","GjJzVZjpp9W3tLwg9":"397 231 031*50","KRmLftM9BUR9YgCr5":"97 263 206*68","5rkkDreuSrzyxhYx7":"413 534 665*87","kFhssoEDiHsHArL69":"475 182 242*78","P2XqP37n1mmoeRRC7":"475 243 669*71","i6v1HGr6T6atiKfR7":"475 274 521*54","4zPnNyYv3WcTFZo98":"475 277 827*20","vsQh3ZdNjiFuJmhu9":"21 616 828*54","njtscpr9vFZWivGY6":"21 615 678*60","RubBewZXHmovPLmG6":"937 003 153*32","WNQ84r4UbEsLkYU96":"21 615 572*00","hWvtNDdsQLQWnTzn7":"21 644 800*68","LbkxtVVZyUmhce8x9":"62 232 029*82","ssqfVMHqzXu74XRk7":"569 457 026*85","gP2eRMYP7LBgQnqy8":"569 458 001*27","euZ3ViVWY5NWdFNPA":"569 428 898*60","3nd2R2cGM43MnB6b6":"569 572 386*13","XDGYiaC3LwtUidnz9":"569 573 731*88","dFGMWLD8AogHYHt38":"569 572 083*18","YkJzr1SKJ6gH1WHP8":"317 817 029*10","iPRfCLBXBA7QtjiF6":"317 851 861*82","jyyiWZUEtGcE2LHF7":"273 595 212*68","qYRcfGqpYHDwEfgF7":"433 583 290*06","FEytoC1UWEwEgKXo8":"97 261 231*65","nhqtHCTNzPGcAdpo6":"97 262 134*00","g3duDaXYXnJMpJCt7":"97 290 684*25","jZf1553Er1kE5yzg9":"97 291 288*13","opk7PzFLk33iRpTB6":"97 291 495*76","gHHieMHz4cMELRpA8":"97 291 280*54","kgYitkyi69w7pRBy6":"397 200 865*48","tTi2jtAsgkkv9xCv7":"413 533 694*63","CkdTPHmM7BQBnpjt5":"413 533 814*88","6YGsCdPst6piEPVa6":"475 181 422*46","LAKE":"413 532 716*57"};
+function mcOf(u){ if(!u) return ""; const m=u.match(/goo\.gl\/([\w-]+)/); if(m) return MC[m[1]]||""; return u.includes("裏磐梯レイクリゾート")?MC.LAKE:""; }
+const mcChip = (c,mini)=>c?`<button class="btn mini mc" data-mc="${c}" aria-label="MapCode ${c}，點一下複製">MapCode <b class="mono">${c}</b></button>`:"";
+function mdPark(x){
+  const h=md(x); if(/MapCode/i.test(x)) return h;
+  return h.replace(/<a href="(https:\/\/maps\.app\.goo\.gl\/[\w-]+)"[^>]*>[^<]*<\/a>/g,(a,u)=>{const c=mcOf(u);return c?a+` <span class="mcode">MapCode <b class="mono">${c}</b></span>`:a;});
+}
 const icon = (id)=>`<svg aria-hidden="true"><use href="#i-${id}"/></svg>`;
 const MODE = {car:["car","開車"],walk:["walk","步行"],train:["train","電車"],bus:["bus","接駁車"],taxi:["taxi","計程車"],rope:["rope","纜車"],plane:["plane","飛機"]};
 const yen = n=>"¥"+n.toLocaleString("en-US");
@@ -1193,7 +1204,7 @@ function renderStop(it,nested){
   if(it.places){
     h += `<ul class="places">`+it.places.map(p=>{
       const a = p[3]&&ABOUT[p[3]], pid = a?id+"pl"+p[3]:"";
-      return `<li${p[4]?` class="${p[4]}"`:""}><span>${p[4]==="sub"?`<b class="arr">↳</b> `:""}${esc(p[0])}${p[1]?` <em>${esc(p[1])}</em>`:""}</span><span class="pbtns">${a?`<button class="btn a mini" aria-expanded="false" aria-controls="${pid}" data-tg="${pid}">${icon(AB_ICON(a))}${p[5]||AB_LABEL(a)}</button>`:""}${p[2]?`<a class="btn mini" href="${p[2]}" target="_blank" rel="noopener">${icon("pin")}地圖</a>`:""}${p[6]?`<button class="btn p mini" aria-expanded="false" aria-controls="${pid}p" data-tg="${pid}p">${icon("park")}停車</button>`:""}</span>${a?aboutPanel(pid,p[3],a):""}${p[6]?`<div class="panel p" id="${pid}p" hidden><div class="ph">${icon("park")}停車場</div>${p[6].map(x=>`<p>${md(x)}</p>`).join("")}</div>`:""}</li>`;
+      return `<li${p[4]?` class="${p[4]}"`:""}><span>${p[4]==="sub"?`<b class="arr">↳</b> `:""}${esc(p[0])}${p[1]?` <em>${esc(p[1])}</em>`:""}</span><span class="pbtns">${a?`<button class="btn a mini" aria-expanded="false" aria-controls="${pid}" data-tg="${pid}">${icon(AB_ICON(a))}${p[5]||AB_LABEL(a)}</button>`:""}${p[2]?`<a class="btn mini" href="${p[2]}" target="_blank" rel="noopener">${icon("pin")}地圖</a>`:""}${p[6]?`<button class="btn p mini" aria-expanded="false" aria-controls="${pid}p" data-tg="${pid}p">${icon("park")}停車</button>`:""}</span>${a?aboutPanel(pid,p[3],a):""}${p[6]?`<div class="panel p" id="${pid}p" hidden><div class="ph">${icon("park")}停車場</div>${p[6].map(x=>`<p>${mdPark(x)}</p>`).join("")}</div>`:""}</li>`;
     }).join("")+`</ul>`;
   }
   const subsHtml = it.subs ? `<div class="subspots">`+it.subs.map(s=>`<div class="subspot">`+renderStop(s,true)+`</div>`).join("")+`</div>` : "";
@@ -1203,7 +1214,7 @@ function renderStop(it,nested){
   const hasAct = it.map||it.info||it.park||abs.length||ky;
   if(hasAct){
     h += `<div class="actions">`;
-    if(it.map) h += `<a class="btn nav" href="${it.map}" target="_blank" rel="noopener">${icon("pin")}導航</a>`;
+    if(it.map) h += `<a class="btn nav" href="${it.map}" target="_blank" rel="noopener">${icon("pin")}導航</a>`+mcChip(mcOf(it.map));
     abs.forEach(([k,a],j)=>{
       const lbl = abs.length>1 && j>0 ? "三澤屋介紹" : AB_LABEL(a);
       h += `<button class="btn a" aria-expanded="false" aria-controls="${id}a${j}" data-tg="${id}a${j}">${icon(AB_ICON(a))}${lbl}</button>`;
@@ -1215,7 +1226,7 @@ function renderStop(it,nested){
     abs.forEach(([k,a],j)=>{ h += aboutPanel(id+"a"+j,k,a); });
     if(ky) h += koyoPanel(id+"k",ky);
     if(it.info) h += `<div class="panel i" id="${id}i" hidden><div class="ph">${icon("info")}補充資訊</div>${it.info.map(x=>`<p>${md(x)}</p>`).join("")}</div>`;
-    if(it.park) h += `<div class="panel p" id="${id}p" hidden><div class="ph">${icon("park")}停車場</div>${it.park.map(x=>`<p>${md(x)}</p>`).join("")}</div>`;
+    if(it.park) h += `<div class="panel p" id="${id}p" hidden><div class="ph">${icon("park")}停車場</div>${it.park.map(x=>`<p>${mdPark(x)}</p>`).join("")}</div>`;
   }
   if(it.subsLast) h += subsHtml;
   return h+(nested?`</div>`:`</div></li>`);
@@ -1305,7 +1316,7 @@ function renderMoveView(){
   <dl class="kv"><dt>預約號</dt><dd class="mono">104156648</dd><dt>取車</dt><dd>10/27（二）17:00　仙台機場店<br>名取市下増田字小沼28-1<br>TEL 022-383-2823</dd>
   <dt>還車</dt><dd>11/1（日）21:00　仙台站東口店<br>宮城野区榴岡2-5-10 松栄東口第三ビル1階<br>TEL 022-257-4123</dd>
   <dt>費用</dt><dd><span class="mono">¥106,788</span>（含稅；含免責補償、NOC 理賠、衛星導航；ETC 裝置 ¥0）</dd><dt>預約人</dt><dd>LIN YICHEN</dd></dl>
-  <div class="actions"><a class="btn nav" href="${G("vsQh3ZdNjiFuJmhu9")}" target="_blank" rel="noopener">${icon("pin")}還車店導航</a></div></div>`;
+  <div class="actions"><a class="btn nav" href="${G("vsQh3ZdNjiFuJmhu9")}" target="_blank" rel="noopener">${icon("pin")}還車店導航</a>${mcChip(mcOf(G("vsQh3ZdNjiFuJmhu9")))}</div></div>`;
   h += `<h3>開車須知</h3><div class="box"><ul class="plain">
    <li>日本靠左行駛；加一般汽油（レギュラー），11/1 要滿油還車。</li>
    <li>取車時確認 ETC 卡、<b>冬季輪胎</b>、導航語言、事故聯絡方式。</li>
@@ -1313,6 +1324,7 @@ function renderMoveView(){
    <li>蔵王ハイライン ¥600、刈田リフト ¥1,000/人、大內宿停車 ¥500 <b>只收現金</b>。</li>
    <li>日落約 16:40–17:00，山路盡量天黑前走完；秋季有熊出沒資訊，步道結伴行動。</li>
    <li>事故或故障：先報警 110 或救護車 119，再聯絡租車公司。</li></ul></div>`;
+  h += `<h3>MapCode</h3><div class="box"><p class="sub" style="margin:0">行程裡每個要開車去的地點、停車場和住宿，都在卡片的「導航」旁、停車場清單或住宿卡上標了 <b>MapCode</b>。點一下會複製（只複製數字與 *）。</p><ul class="tips" style="margin:8px 0 0;padding-left:18px"><li>車機輸入時，<b>*後面兩碼可以不輸入</b>，只輸入前面的數字就會到附近（約 30 m 內）。</li><li>這些代碼是用 Google 地圖上標的座標轉換出來的，不是官方登錄值，和停車場實際入口可能差幾十公尺。到現場以 Google 導航與現場標示為準。</li><li>大內宿、只見川的停車場，行程文字裡另外查到的代碼維持原樣，兩者前六碼相同，只是位置略有差別。</li></ul></div>`;
   h += `<h3>每日移動</h3>`;
   DAYS.forEach(d=>{
     const moves = collectMoves(dayItems(d),[],d.n);
@@ -1334,7 +1346,7 @@ function renderStay(){
     h += `<div class="box"><div class="cardhead"><span class="pill">${x.d}・${x.nights}</span>${x.tentative?`<span class="pill warn">暫定</span>`:`<span class="pill ok">已訂</span>`}</div>
     <h4 style="margin:8px 0 0;font-size:17px">${esc(x.name)}</h4>
     <dl class="kv"><dt>房型</dt><dd>${esc(x.room)}</dd><dt>費用</dt><dd class="mono">${yen(x.price)}</dd><dt>餐食</dt><dd>${esc(x.meal)}</dd>${x.checkin?`<dt>入住</dt><dd>${esc(x.checkin)}</dd>`:""}${x.addr?`<dt>地址</dt><dd>${esc(x.addr)}</dd>`:""}<dt>停車</dt><dd>${esc(x.park)}</dd></dl>${x.inNote?`<div class="callout blue" style="margin:8px 0"><b>入住注意</b><br>${x.inNote.map(t=>md(t)).join("<br>")}</div>`:""}${x.outNote?`<div class="callout" style="margin:8px 0"><b>退房注意</b><br>${x.outNote.map(t=>md(t)).join("<br>")}</div>`:""}
-    <div class="actions"><a class="btn nav" href="${x.map}" target="_blank" rel="noopener">${icon("pin")}導航</a>${x.link?`<a class="btn" href="${x.link}" target="_blank" rel="noopener">訂房頁</a>`:""}${x.ab&&ABOUT[x.ab]?`<button class="btn a" aria-expanded="false" aria-controls="hot${hi}a" data-tg="hot${hi}a">${icon(AB_ICON(ABOUT[x.ab]))}${AB_LABEL(ABOUT[x.ab])}</button>`:""}</div>${x.ab&&ABOUT[x.ab]?aboutPanel("hot"+hi+"a",x.ab,ABOUT[x.ab]):""}</div>`;
+    <div class="actions"><a class="btn nav" href="${x.map}" target="_blank" rel="noopener">${icon("pin")}導航</a>${mcChip(mcOf(x.map))}${x.link?`<a class="btn" href="${x.link}" target="_blank" rel="noopener">訂房頁</a>`:""}${x.ab&&ABOUT[x.ab]?`<button class="btn a" aria-expanded="false" aria-controls="hot${hi}a" data-tg="hot${hi}a">${icon(AB_ICON(ABOUT[x.ab]))}${AB_LABEL(ABOUT[x.ab])}</button>`:""}</div>${x.ab&&ABOUT[x.ab]?aboutPanel("hot"+hi+"a",x.ab,ABOUT[x.ab]):""}</div>`;
   });
   h += `</div></div>`;
   document.getElementById("v-stay").innerHTML = h;
@@ -1485,8 +1497,8 @@ const PT = {
   sunmall:P("サンモール一番町",38.2587499,140.8726063,"09:15",G("APcx8FmAbb5jTH296"),"sunmallst"),  botan:P("とんかつ牡丹 本店",38.256616,140.8734325,"11:45",G("5JRivwozBXJ2QFpk9"),"botan"),
   clis:P("Marble Road・CLIS ROAD",38.2615123,140.8765902,"13:00",G("Hq5D2BmXvZ6c7zB2A"),"sendaistreet"),
   kaku:P("牛たん料理 閣 名掛丁店",38.2623611,140.880343,"18:30",G("eUkz9prvy17j37T36"),"kaku"),
-  lakeresort:P("裏磐梯湖畔渡假村",37.651098,140.062385,"14:30","https://www.google.com/maps/search/?api=1&query=裏磐梯レイクリゾート","lakeresort"),
-  nakatsugawa:P("中津川渓谷レストハウス",37.688955,140.146024,"16:30",G("RubBewZXHmovPLmG6"),"nakatsugawa"),
+  lakeresort:P("裏磐梯湖畔渡假村",37.6510648,140.0623936,"14:30","https://www.google.com/maps/search/?api=1&query=裏磐梯レイクリゾート","lakeresort"),
+  nakatsugawa:P("中津川渓谷レストハウス",37.6712894,140.1476878,"16:30",G("RubBewZXHmovPLmG6"),"nakatsugawa"),
   return6B:P("還車 仙台站東口",38.2605753,140.8849899,"19:35",G("vsQh3ZdNjiFuJmhu9")),
   aeon:P("AEON",38.2578072,140.8731221,"20:10",G("1eXAtK1UKP5eRAtL9")),
   asaichi:P("仙台朝市",38.258796,140.8786683,"09:25",G("xMgKMM14hE3nkMmU7"),"asaichi"),
@@ -1602,7 +1614,7 @@ function renderMap(){
     const d=DAYS[mapState.day-1];
     if(d.n===6) h+=`<p class="seg-note">五色沼之後依目前選的方案 ${d6B()?"B（裏磐梯湖畔泡湯・Lakeline）":"A（Skyline・玉子湯）"} 顯示，可到「每日行程」切換。</p>`;
     if(d.variants) h+=`<p class="seg-note">依目前選的排法 ${state.plan==="A"?"A":state.bver} 顯示，可到「每日行程」切換。</p>`;
-    if(mapState.sel){ const p=PT[mapState.sel]; h+=`<div class="box mapsel" style="border-color:${dayColor(d.n)}"><div class="cardhead"><h4>${esc(p.name)}</h4>${p.t?`<span class="pill mono">${p.t}</span>`:""}</div><div class="actions">${p.link?`<a class="btn nav" href="${p.link}" target="_blank" rel="noopener">${icon("pin")}導航</a>`:""}<button class="btn" data-goday="${d.n}">看 Day ${d.n} 行程</button></div></div>`; }
+    if(mapState.sel){ const p=PT[mapState.sel]; h+=`<div class="box mapsel" style="border-color:${dayColor(d.n)}"><div class="cardhead"><h4>${esc(p.name)}</h4>${p.t?`<span class="pill mono">${p.t}</span>`:""}</div><div class="actions">${p.link?`<a class="btn nav" href="${p.link}" target="_blank" rel="noopener">${icon("pin")}導航</a>`:""}${mcChip(mcOf(p.link))}<button class="btn" data-goday="${d.n}">看 Day ${d.n} 行程</button></div></div>`; }
     const keys=routeFor(d.n), seen={};
     h += `<h3 style="display:flex;align-items:center;gap:8px"><i class="dsw" style="background:${dayColor(d.n)}"></i>DAY ${d.n}　${d.date}（${d.w}）${esc(dayTitle(d))}</h3><ol class="mlist2">`;
     keys.forEach((k,i)=>{ const p=PT[k]; h+=`<li class="${mapState.sel===k?"on":""}"><span class="no" style="background:${dayColor(d.n)}">${i+1}</span><button class="nm" data-mk="${k}">${esc(p.name)}${p.t?` <em class="mono">${p.t}</em>`:""}</button>${p.link?`<a class="btn mini" href="${p.link}" target="_blank" rel="noopener">${icon("pin")}導航</a>`:""}</li>`; });
@@ -1704,6 +1716,7 @@ document.addEventListener("click",e=>{
   const c = e.target.closest("[data-choice]"); if(c){state.choice[c.dataset.choice]=+c.dataset.j;store.set("choice",state.choice);renderDays();return;}
   const z = e.target.closest("[data-zoom]"); if(z){const x=IMGS[z.dataset.zoom][+z.dataset.zi];const lb=document.createElement("div");lb.className="lightbox";lb.innerHTML=`<div><img src="${x.src}" alt=""><p>${esc(x.cap)}・點一下關閉</p></div>`;document.body.appendChild(lb);return;}
   const lbx = e.target.closest(".lightbox"); if(lbx){lbx.remove();return;}
+  const mcb = e.target.closest("[data-mc]"); if(mcb){ const v=mcb.dataset.mc; try{ navigator.clipboard.writeText(v.replace(/[^\d*]/g,"")); }catch(_){} const b=mcb.querySelector("b"); if(b){ const o=b.textContent; b.textContent="已複製"; setTimeout(()=>{b.textContent=o},1200);} return; }
   const tg = e.target.closest("[data-tg]"); if(tg){const p=document.getElementById(tg.dataset.tg);const opening=p.hidden;
     const top0=tg.getBoundingClientRect().top;
     if(opening) document.querySelectorAll("[data-tg]").forEach(o=>{if(o!==tg){const q=document.getElementById(o.dataset.tg);if(q&&!q.hidden){q.hidden=true;o.setAttribute("aria-expanded","false");}}});

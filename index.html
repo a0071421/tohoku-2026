@@ -141,6 +141,9 @@ button{font:inherit;color:inherit}
 .btn.mini{padding:4px 8px;font-size:12px;font-weight:600;flex:none}
 .btn.mc{border-style:dashed;background:var(--bg);color:var(--ink)}
 .btn.mc b{font-weight:700;letter-spacing:.2px}
+.ctop{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.ctop .tag{margin-bottom:4px}
+.btn.mc.top{padding:1px 7px;font-size:11px;font-weight:600;border-radius:6px;margin-bottom:4px;line-height:1.5;min-height:0;max-width:100%}
 .mcode{display:inline-block;margin-left:2px;padding:0 6px;border:1px dashed var(--line);border-radius:6px;font-size:12px;white-space:nowrap;color:var(--muted)}
 .mcode b{color:var(--ink)}
 .btn[aria-expanded="true"]{background:var(--surface-2)}
@@ -1150,7 +1153,7 @@ function md(s){
 }
 const MC = {"fiZpAtrLELmEErSRA":"21 615 573*15","Z34E592bpRUVVvB3A":"21 644 800*43","hmXJmco9pz1tx5GS9":"21 615 738*00","cWgw5XuHAUznYAbW7":"62 232 196*14","miQe4UKmMTkoYQDeA":"62 345 574*85","WoVx9yQtqmZwFZTdA":"720 859 034*67","55gi6uaFJXcFpaNm7":"569 459 092*82","ddjrvs5JC1x2o3xg8":"569 572 656*32","hqNJesxLYj3g5HTD7":"569 573 877*00","o63xQ3xCTGE9MkuLA":"569 572 054*71","gHZUSuVTvUecS1G8A":"569 573 528*16","Xg3BH8GoSWmf4NGA9":"317 818 130*86","92oiRd5VGEvMhXux7":"273 595 231*62","UqoB3zv5ptWxFNEVA":"273 594 472*76","dBSips3aStg8N1SN8":"273 594 328*77","82agZHofU2vQrF447":"273 594 298*11","7xY4vPsLrqY56qw2A":"273 564 705*24","p9XoE8Yn6BJ2KYmD7":"273 593 561*51","yhrJ8EZMGSnr7p636":"433 583 680*68","6Nn2ZALQp96PjD4E7":"97 261 178*17","EdMairMXrjGZK6VbA":"97 290 741*83","eERELhVNxktWuNVg7":"97 262 870*53","q5WCURom9Dp9rbjy7":"97 292 153*08","GjJzVZjpp9W3tLwg9":"397 231 031*50","KRmLftM9BUR9YgCr5":"97 263 206*68","5rkkDreuSrzyxhYx7":"413 534 665*87","kFhssoEDiHsHArL69":"475 182 242*78","P2XqP37n1mmoeRRC7":"475 243 669*71","i6v1HGr6T6atiKfR7":"475 274 521*54","4zPnNyYv3WcTFZo98":"475 277 827*20","vsQh3ZdNjiFuJmhu9":"21 616 828*54","njtscpr9vFZWivGY6":"21 615 678*60","RubBewZXHmovPLmG6":"937 003 153*32","WNQ84r4UbEsLkYU96":"21 615 572*00","hWvtNDdsQLQWnTzn7":"21 644 800*68","LbkxtVVZyUmhce8x9":"62 232 029*82","ssqfVMHqzXu74XRk7":"569 457 026*85","gP2eRMYP7LBgQnqy8":"569 458 001*27","euZ3ViVWY5NWdFNPA":"569 428 898*60","3nd2R2cGM43MnB6b6":"569 572 386*13","XDGYiaC3LwtUidnz9":"569 573 731*88","dFGMWLD8AogHYHt38":"569 572 083*18","YkJzr1SKJ6gH1WHP8":"317 817 029*10","iPRfCLBXBA7QtjiF6":"317 851 861*82","jyyiWZUEtGcE2LHF7":"273 595 212*68","qYRcfGqpYHDwEfgF7":"433 583 290*06","FEytoC1UWEwEgKXo8":"97 261 231*65","nhqtHCTNzPGcAdpo6":"97 262 134*00","g3duDaXYXnJMpJCt7":"97 290 684*25","jZf1553Er1kE5yzg9":"97 291 288*13","opk7PzFLk33iRpTB6":"97 291 495*76","gHHieMHz4cMELRpA8":"97 291 280*54","kgYitkyi69w7pRBy6":"397 200 865*48","tTi2jtAsgkkv9xCv7":"413 533 694*63","CkdTPHmM7BQBnpjt5":"413 533 814*88","6YGsCdPst6piEPVa6":"475 181 422*46","LAKE":"413 532 716*57"};
 function mcOf(u){ if(!u) return ""; const m=u.match(/goo\.gl\/([\w-]+)/); if(m) return MC[m[1]]||""; return u.includes("裏磐梯レイクリゾート")?MC.LAKE:""; }
-const mcChip = (c,mini)=>c?`<button class="btn mini mc" data-mc="${c}" aria-label="MapCode ${c}，點一下複製">MapCode <b class="mono">${c}</b></button>`:"";
+const mcChip = (c,top)=>c?`<button class="btn mini mc${top?" top":""}" data-mc="${c}" aria-label="MapCode ${c}，點一下複製">MapCode <b class="mono">${c}</b></button>`:"";
 function mdPark(x){
   const h=md(x); if(/MapCode/i.test(x)) return h;
   return h.replace(/<a href="(https:\/\/maps\.app\.goo\.gl\/[\w-]+)"[^>]*>[^<]*<\/a>/g,(a,u)=>{const c=mcOf(u);return c?a+` <span class="mcode">MapCode <b class="mono">${c}</b></span>`:a;});
@@ -1197,7 +1200,8 @@ function renderStop(it,nested){
   const cls = ["row"]; if(it.key) cls.push("key");
   const tagCls = it.food?"food":it.stay?"stay":it.opt?"opt":"";
   let h = nested ? `<div class="card nested">` : `<li class="${cls.join(" ")}"><div class="time">${it.t||""}${it.end?`<small>–${it.end}</small>`:""}</div><div class="node"></div><div class="card">`;
-  if(it.tag) h += `<span class="tag ${tagCls}">${esc(it.tag)}</span>`;
+  { const mcT = mcChip(mcOf(it.map),1);
+    if(it.tag||mcT) h += `<div class="ctop">${it.tag?`<span class="tag ${tagCls}">${esc(it.tag)}</span>`:"<span></span>"}${mcT}</div>`; }
   const durTxt = nested ? [it.t&&it.end?it.t+"–"+it.end:it.t, it.dur].filter(Boolean).join("・") : it.dur;
   h += `<div class="ctitle"><h3>${esc(it.title)}</h3>${durTxt?`<span class="dur">${esc(durTxt)}</span>`:""}</div>`;
   if(it.sub) h += `<p class="sub">${md(it.sub)}</p>`;
@@ -1214,7 +1218,7 @@ function renderStop(it,nested){
   const hasAct = it.map||it.info||it.park||abs.length||ky;
   if(hasAct){
     h += `<div class="actions">`;
-    if(it.map) h += `<a class="btn nav" href="${it.map}" target="_blank" rel="noopener">${icon("pin")}導航</a>`+mcChip(mcOf(it.map));
+    if(it.map) h += `<a class="btn nav" href="${it.map}" target="_blank" rel="noopener">${icon("pin")}導航</a>`; 
     abs.forEach(([k,a],j)=>{
       const lbl = abs.length>1 && j>0 ? "三澤屋介紹" : AB_LABEL(a);
       h += `<button class="btn a" aria-expanded="false" aria-controls="${id}a${j}" data-tg="${id}a${j}">${icon(AB_ICON(a))}${lbl}</button>`;
@@ -1314,9 +1318,9 @@ function renderMoveView(){
   h += `</div><p class="sub">來回機票：3 人各 NT$20,650、1 人 NT$19,739，共 NT$81,689。11/3 建議 15:00 前到機場。</p>`;
   h += `<h3>租車　NISSAN レンタカー</h3><div class="box"><div class="cardhead"><h4>SERENA e-Power（禁菸，4 人）</h4><span class="pill ok">已預約</span></div>
   <dl class="kv"><dt>預約號</dt><dd class="mono">104156648</dd><dt>取車</dt><dd>10/27（二）17:00　仙台機場店<br>名取市下増田字小沼28-1<br>TEL 022-383-2823</dd>
-  <dt>還車</dt><dd>11/1（日）21:00　仙台站東口店<br>宮城野区榴岡2-5-10 松栄東口第三ビル1階<br>TEL 022-257-4123</dd>
+  <dt>還車</dt><dd>11/1（日）21:00　仙台站東口店<br>宮城野区榴岡2-5-10 松栄東口第三ビル1階<br>TEL 022-257-4123<br>${mcChip(mcOf(G("vsQh3ZdNjiFuJmhu9")))}</dd>
   <dt>費用</dt><dd><span class="mono">¥106,788</span>（含稅；含免責補償、NOC 理賠、衛星導航；ETC 裝置 ¥0）</dd><dt>預約人</dt><dd>LIN YICHEN</dd></dl>
-  <div class="actions"><a class="btn nav" href="${G("vsQh3ZdNjiFuJmhu9")}" target="_blank" rel="noopener">${icon("pin")}還車店導航</a>${mcChip(mcOf(G("vsQh3ZdNjiFuJmhu9")))}</div></div>`;
+  <div class="actions"><a class="btn nav" href="${G("vsQh3ZdNjiFuJmhu9")}" target="_blank" rel="noopener">${icon("pin")}還車店導航</a></div></div>`;
   h += `<h3>開車須知</h3><div class="box"><ul class="plain">
    <li>日本靠左行駛；加一般汽油（レギュラー），11/1 要滿油還車。</li>
    <li>取車時確認 ETC 卡、<b>冬季輪胎</b>、導航語言、事故聯絡方式。</li>
@@ -1343,10 +1347,10 @@ function renderStay(){
   const total = HOTELS.reduce((a,b)=>a+b.price,0);
   let h = `<div class="sec"><h2>住宿</h2><p class="lead">5 間、7 晚，合計 <span class="mono">${yen(total)}</span>（每人約 ${yen(Math.round(total/4))}）。</p><div class="stack" style="margin-top:12px">`;
   HOTELS.forEach((x,hi)=>{
-    h += `<div class="box"><div class="cardhead"><span class="pill">${x.d}・${x.nights}</span>${x.tentative?`<span class="pill warn">暫定</span>`:`<span class="pill ok">已訂</span>`}</div>
+    h += `<div class="box"><div class="cardhead"><span class="pill">${x.d}・${x.nights}</span>${x.tentative?`<span class="pill warn">暫定</span>`:`<span class="pill ok">已訂</span>`}${mcChip(mcOf(x.map),1)}</div>
     <h4 style="margin:8px 0 0;font-size:17px">${esc(x.name)}</h4>
     <dl class="kv"><dt>房型</dt><dd>${esc(x.room)}</dd><dt>費用</dt><dd class="mono">${yen(x.price)}</dd><dt>餐食</dt><dd>${esc(x.meal)}</dd>${x.checkin?`<dt>入住</dt><dd>${esc(x.checkin)}</dd>`:""}${x.addr?`<dt>地址</dt><dd>${esc(x.addr)}</dd>`:""}<dt>停車</dt><dd>${esc(x.park)}</dd></dl>${x.inNote?`<div class="callout blue" style="margin:8px 0"><b>入住注意</b><br>${x.inNote.map(t=>md(t)).join("<br>")}</div>`:""}${x.outNote?`<div class="callout" style="margin:8px 0"><b>退房注意</b><br>${x.outNote.map(t=>md(t)).join("<br>")}</div>`:""}
-    <div class="actions"><a class="btn nav" href="${x.map}" target="_blank" rel="noopener">${icon("pin")}導航</a>${mcChip(mcOf(x.map))}${x.link?`<a class="btn" href="${x.link}" target="_blank" rel="noopener">訂房頁</a>`:""}${x.ab&&ABOUT[x.ab]?`<button class="btn a" aria-expanded="false" aria-controls="hot${hi}a" data-tg="hot${hi}a">${icon(AB_ICON(ABOUT[x.ab]))}${AB_LABEL(ABOUT[x.ab])}</button>`:""}</div>${x.ab&&ABOUT[x.ab]?aboutPanel("hot"+hi+"a",x.ab,ABOUT[x.ab]):""}</div>`;
+    <div class="actions"><a class="btn nav" href="${x.map}" target="_blank" rel="noopener">${icon("pin")}導航</a>${x.link?`<a class="btn" href="${x.link}" target="_blank" rel="noopener">訂房頁</a>`:""}${x.ab&&ABOUT[x.ab]?`<button class="btn a" aria-expanded="false" aria-controls="hot${hi}a" data-tg="hot${hi}a">${icon(AB_ICON(ABOUT[x.ab]))}${AB_LABEL(ABOUT[x.ab])}</button>`:""}</div>${x.ab&&ABOUT[x.ab]?aboutPanel("hot"+hi+"a",x.ab,ABOUT[x.ab]):""}</div>`;
   });
   h += `</div></div>`;
   document.getElementById("v-stay").innerHTML = h;
@@ -1614,7 +1618,7 @@ function renderMap(){
     const d=DAYS[mapState.day-1];
     if(d.n===6) h+=`<p class="seg-note">五色沼之後依目前選的方案 ${d6B()?"B（裏磐梯湖畔泡湯・Lakeline）":"A（Skyline・玉子湯）"} 顯示，可到「每日行程」切換。</p>`;
     if(d.variants) h+=`<p class="seg-note">依目前選的排法 ${state.plan==="A"?"A":state.bver} 顯示，可到「每日行程」切換。</p>`;
-    if(mapState.sel){ const p=PT[mapState.sel]; h+=`<div class="box mapsel" style="border-color:${dayColor(d.n)}"><div class="cardhead"><h4>${esc(p.name)}</h4>${p.t?`<span class="pill mono">${p.t}</span>`:""}</div><div class="actions">${p.link?`<a class="btn nav" href="${p.link}" target="_blank" rel="noopener">${icon("pin")}導航</a>`:""}${mcChip(mcOf(p.link))}<button class="btn" data-goday="${d.n}">看 Day ${d.n} 行程</button></div></div>`; }
+    if(mapState.sel){ const p=PT[mapState.sel]; h+=`<div class="box mapsel" style="border-color:${dayColor(d.n)}"><div class="cardhead"><h4>${esc(p.name)}</h4>${p.t?`<span class="pill mono">${p.t}</span>`:""}${mcChip(mcOf(p.link),1)}</div><div class="actions">${p.link?`<a class="btn nav" href="${p.link}" target="_blank" rel="noopener">${icon("pin")}導航</a>`:""}<button class="btn" data-goday="${d.n}">看 Day ${d.n} 行程</button></div></div>`; }
     const keys=routeFor(d.n), seen={};
     h += `<h3 style="display:flex;align-items:center;gap:8px"><i class="dsw" style="background:${dayColor(d.n)}"></i>DAY ${d.n}　${d.date}（${d.w}）${esc(dayTitle(d))}</h3><ol class="mlist2">`;
     keys.forEach((k,i)=>{ const p=PT[k]; h+=`<li class="${mapState.sel===k?"on":""}"><span class="no" style="background:${dayColor(d.n)}">${i+1}</span><button class="nm" data-mk="${k}">${esc(p.name)}${p.t?` <em class="mono">${p.t}</em>`:""}</button>${p.link?`<a class="btn mini" href="${p.link}" target="_blank" rel="noopener">${icon("pin")}導航</a>`:""}</li>`; });

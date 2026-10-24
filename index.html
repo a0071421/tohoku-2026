@@ -333,7 +333,13 @@ tr.sum td:first-child{background:var(--surface-2)}
 .wxo details[open] .chev{transform:rotate(-135deg)}
 .wxo summary svg.wxs{width:46px;height:22px}
 .wxc{margin:8px 0 2px;padding:9px 11px;border-radius:10px;background:var(--ai-soft);font-size:13px;line-height:1.6}.wxc b{display:block;font-size:12.5px;color:var(--ai);margin-bottom:1px}.wxc.tips{margin-top:8px}.wxc.tips p{margin:0 0 6px}.wxc.tips p:last-child{margin:0}
-.wxov{display:block;width:100%;height:auto;border-radius:12px;margin:12px 0 0;border:1px solid var(--line)}
+.wxthumb{display:flex;gap:12px;align-items:center;width:100%;margin:12px 0 0;padding:10px;text-align:left;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);color:var(--ink);cursor:zoom-in;font:inherit}
+.wxthumb img{flex:0 0 auto;width:74px;height:96px;object-fit:cover;object-position:top;border-radius:8px;border:1px solid var(--line);background:#fff}
+.wxthumb span{display:grid;gap:3px;min-width:0}.wxthumb b{font-size:15px}.wxthumb em{font-style:normal;font-size:12.5px;color:var(--muted);line-height:1.4}.wxthumb i{font-style:normal;font-size:12.5px;font-weight:700;color:var(--ai)}
+.lightbox.tall{display:block;overflow:auto;-webkit-overflow-scrolling:touch;padding:0;cursor:default}
+.lightbox.tall .lbclose{position:sticky;top:0;z-index:2;display:block;margin:0 0 0 auto;border:0;border-radius:0 0 0 12px;background:rgba(8,12,16,.85);color:#E4E9EC;font:inherit;font-size:14px;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;cursor:pointer}
+.lightbox.tall img{display:block;width:100%;max-width:640px;max-height:none;margin:0 auto;border-radius:0;background:#fff}
+.lightbox.tall p{padding:12px 16px calc(28px + env(safe-area-inset-bottom,0px));line-height:1.7}.lightbox.tall p a{color:#9CC4FF;text-decoration:underline}
 .wxgo{margin:6px 0 2px}
 .wxk{margin:12px 0 0;padding-left:18px;font-size:13.5px;line-height:1.6}.wxk li{margin:2px 0}
 </style>
@@ -1380,7 +1386,7 @@ function wxBlock(day){
 }
 function renderWx(){
   let h = `<div class="sec"><h2>天氣預報</h2><p class="lead">來源 tenki.jp，2026/10/24 取得；依每天實際行程時段整理，點日期看細節。10/28、10/30、11/1 會跟著「每日行程」目前選的排法／方案顯示。預報距出發尚遠，會再變動，出發前請重新確認。</p>`;
-  const ov = IMGS["wx-overview"]; if(ov&&ov[0]) h += `<img class="wxov" src="${ov[0].src}" alt="${esc(ov[0].cap)}"><p class="wxn">上面這張可以長按儲存到相簿，離線也能看。圖是 10/24 的預報快照，不會自動更新。</p>`;
+  const ov = IMGS["wx-overview"]; if(ov&&ov[0]) h += `<button class="wxthumb" data-wxov aria-label="放大天氣總覽圖"><img src="${ov[0].src}" alt="${esc(ov[0].cap)}"><span><b>天氣總覽圖</b><em>8 天天氣、降雨機率與穿著，一張看完</em><i>點一下放大・可儲存到相簿</i></span></button>`;
   h += `<ul class="wxk"><li><b>10/28</b> 銀山風大（約 7–8 m/s）、氣溫只有 6–11℃，山寺石階濕滑時小心；若改去御釜，山頂預報可能降雪。</li><li><b>10/29</b> 最穩的一天，但鳴子峽清晨低溫約 3℃。</li><li><b>10/31</b> 下午起會津若松轉雨（70%），大內宿安排在上午。</li><li><b>11/1</b> 下午起裏磐梯・Lakeline 降雨 70%，山上可能雨夾雪；A、B 兩方案都走 Lakeline。</li><li><b>Lakeline</b> 11/13 17:00 才冬季封閉，11/1 照常通行，降雪結冰時可能提早封。</li></ul>`;
   h += `<h3>怎麼穿・注意事項</h3><div class="wxc tips">${WXTIPS.map(x=>`<p><b>${x[0]}</b>${esc(x[1])}</p>`).join("")}</div>`;
   h += `<h3>每天預報</h3><div class="wxo">`+DAYS.map(d=>{
@@ -1854,7 +1860,8 @@ document.addEventListener("click",e=>{
     store.set("plan",state.plan);store.set("bver",state.bver);renderDays();return;}
   const c = e.target.closest("[data-choice]"); if(c){state.choice[c.dataset.choice]=+c.dataset.j;store.set("choice",state.choice);renderDays();return;}
   const z = e.target.closest("[data-zoom]"); if(z){const x=IMGS[z.dataset.zoom][+z.dataset.zi];const lb=document.createElement("div");lb.className="lightbox";lb.innerHTML=`<div><img src="${x.src}" alt=""><p>${esc(x.cap)}・點一下關閉</p></div>`;document.body.appendChild(lb);return;}
-  const lbx = e.target.closest(".lightbox"); if(lbx){lbx.remove();return;}
+  const wo = e.target.closest("[data-wxov]"); if(wo){const x=IMGS["wx-overview"][0];const lb=document.createElement("div");lb.className="lightbox tall";lb.innerHTML=`<button class="lbclose">✕ 關閉</button><img src="${x.src}" alt="${esc(x.cap)}"><p>長按圖片可儲存到相簿，或 <a download="東北行天氣總覽.jpg" href="${x.src}">下載圖片</a>。<br>${esc(x.cap)}</p>`;document.body.appendChild(lb);return;}
+  const lbx = e.target.closest(".lightbox"); if(lbx){ if(lbx.classList.contains("tall") && !e.target.closest(".lbclose")) return; lbx.remove();return;}
   const mcb = e.target.closest("[data-mc]"); if(mcb){ const v=mcb.dataset.mc; try{ navigator.clipboard.writeText(v.replace(/[^\d*]/g,"")); }catch(_){} const b=mcb.querySelector("b"); if(b){ const o=b.textContent; b.textContent="已複製"; setTimeout(()=>{b.textContent=o},1200);} return; }
   const tg = e.target.closest("[data-tg]"); if(tg){const p=document.getElementById(tg.dataset.tg);const opening=p.hidden;
     const top0=tg.getBoundingClientRect().top;

@@ -146,7 +146,8 @@ button{font:inherit;color:inherit}
 .ctop2{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:start}
 .ctop2 .cl{min-width:0}
 .ctop2 .ctitle{display:block}
-.ctop2 .ctitle .dur{display:inline-block;margin-top:5px}
+.ctop2 .ctitle .dur{display:inline-block;margin-top:5px;white-space:normal;max-width:100%}
+.dur .nw{white-space:nowrap}
 .btn.mc.two{display:inline-flex;flex-direction:column;align-items:flex-start;gap:0;padding:2px 7px;line-height:1.3}
 .btn.mc.two .l{font-size:10px;font-weight:500;color:var(--muted);max-width:150px;overflow:hidden;text-overflow:ellipsis}
 .mccol{display:flex;flex-direction:column;align-items:flex-end;gap:3px;min-width:0}
@@ -1333,7 +1334,7 @@ function renderStop(it,nested){
   const tagCls = it.food?"food":it.stay?"stay":it.opt?"opt":"";
   let h = nested ? `<div class="card nested">` : `<li class="${cls.join(" ")}"><div class="time">${it.t||""}${it.end?`<small>–${it.end}</small>`:""}</div><div class="node"></div><div class="card">`;
   const durTxt = nested ? [it.t&&it.end?it.t+"–"+it.end:it.t, it.dur].filter(Boolean).join("・") : it.dur;
-  const titleH = `<div class="ctitle"><h3>${esc(it.title)}</h3>${durTxt?`<span class="dur">${esc(durTxt)}</span>`:""}</div>`;
+  const titleH = `<div class="ctitle"><h3>${esc(it.title)}</h3>${durTxt?`<span class="dur">${durTxt.split("・").map(x=>`<span class="nw">${esc(x)}</span>`).join("・")}</span>`:""}</div>`;
   const pmL = stopMcList(it).list, tagH = it.tag?`<span class="tag ${tagCls}">${esc(it.tag)}</span>`:"";
   if(pmL.length>1){
     h += `<div class="ctop2"><div class="cl">${tagH}${titleH}</div>${mcColHtml(pmL)}</div>`;

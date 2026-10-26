@@ -194,6 +194,23 @@ button{font:inherit;color:inherit}
 .lbnav:hover,.lbx:hover{background:rgba(255,255,255,.3)}
 .lbnav[hidden]{display:none}
 .galw{position:relative}
+/* 照片讀取中的骨架 */
+@keyframes skel{0%{background-position:100% 0}100%{background-position:-100% 0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gal .zoom{position:relative;background:var(--surface-2)}
+.gal .zoom img{position:relative;z-index:1;opacity:0;transition:opacity .25s}
+.gal .zoom img.ok{opacity:1}
+.gal .zoom::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 25%,color-mix(in srgb,var(--ink) 9%,transparent) 50%,transparent 75%);background-size:200% 100%;animation:skel 1.3s linear infinite}
+.gal .zoom::after{content:"照片讀取中…";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:12px;color:var(--muted);white-space:nowrap}
+.gal .zoom.ok::before,.gal .zoom.ok::after{display:none}
+.gal .zoom.err::before{animation:none}
+.gal .zoom.err::after{content:"照片載入失敗，有網路後再試"}
+.wxthumb img:not(.ok){background:linear-gradient(90deg,#e8ecef 25%,#f6f8f9 50%,#e8ecef 75%);background-size:200% 100%;animation:skel 1.3s linear infinite}
+.lightbox.ld .lbbox img{opacity:0}
+.lightbox.ld::after{content:"";position:fixed;left:50%;top:calc(50% - 50px);width:38px;height:38px;margin:-19px 0 0 -19px;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+.lightbox.err .lbbox img{display:none}
+.lightbox.err::after{content:"照片載入失敗，有網路後再試";position:fixed;left:0;right:0;top:calc(50% - 44px);text-align:center;color:#fff;font-size:15px;font-weight:700}
+@media (prefers-reduced-motion:reduce){.gal .zoom::before,.wxthumb img,.lightbox.ld::after{animation:none!important}}
 .galnav{display:none;position:absolute;top:calc(50% - 14px);transform:translateY(-50%);z-index:2;width:36px;height:56px;border:0;border-radius:10px;background:rgba(15,20,25,.55);color:#fff;font-size:26px;line-height:1;cursor:pointer;place-items:center}
 .galnav.prev{left:6px}.galnav.next{right:6px}.galnav:hover{background:rgba(15,20,25,.8)}
 .gal img{-webkit-user-drag:none;user-select:none}
@@ -1903,7 +1920,12 @@ function show(view){
 
 /* ================= LIGHTBOX / DESKTOP INPUT ================= */
 let LB=null;
-function lbShow(){const l=IMGS[LB.k],x=l[LB.i],n=l.length;LB.el.querySelector("img").src=x.src;
+// 照片載入完成／失敗：拿掉骨架
+document.addEventListener("load",e=>{const t=e.target;if(t.tagName!=="IMG")return;t.classList.add("ok");const z=t.closest(".zoom");if(z){z.classList.add("ok");z.classList.remove("err");}
+  const lb=t.closest(".lightbox");if(lb)lb.classList.remove("ld","err");},true);
+document.addEventListener("error",e=>{const t=e.target;if(t.tagName!=="IMG")return;const z=t.closest(".zoom");if(z)z.classList.add("err");
+  const lb=t.closest(".lightbox");if(lb){lb.classList.remove("ld");lb.classList.add("err");}},true);
+function lbShow(){const l=IMGS[LB.k],x=l[LB.i],n=l.length;const im=LB.el.querySelector("img");LB.el.classList.remove("err");if(im.getAttribute("src")!==x.src){LB.el.classList.add("ld");im.src=x.src;if(im.complete&&im.naturalWidth)LB.el.classList.remove("ld");}
   LB.el.querySelector("p").textContent=(n>1?`${LB.i+1}/${n}・`:"")+x.cap+"・點空白處關閉";
   LB.el.querySelectorAll(".lbnav").forEach(b=>{b.hidden=n<2;});}
 function lbOpen(k,i){lbClose();const el=document.createElement("div");el.className="lightbox";
@@ -1958,7 +1980,7 @@ document.addEventListener("click",e=>{
   const gn = e.target.closest("[data-galnav]"); if(gn){const g=gn.parentElement.querySelector(".gal");const f=g.querySelector("figure");g.scrollBy({left:(+gn.dataset.galnav)*(f?f.getBoundingClientRect().width+8:g.clientWidth*.8),behavior:"smooth"});return;}
   const z = e.target.closest("[data-zoom]"); if(z){lbOpen(z.dataset.zoom,+z.dataset.zi);return;}
   const ln = e.target.closest(".lbnav"); if(ln){lbStep(ln.classList.contains("next")?1:-1);return;}
-  const wo = e.target.closest("[data-wxov]"); if(wo){const x=IMGS["wx-overview"][0];const lb=document.createElement("div");lb.className="lightbox tall";lb.innerHTML=`<button class="lbclose">✕ 關閉</button><img src="${x.src}" alt="${esc(x.cap)}"><p>長按圖片即可儲存到相簿。<br>${esc(x.cap)}</p>`;document.body.appendChild(lb);return;}
+  const wo = e.target.closest("[data-wxov]"); if(wo){const x=IMGS["wx-overview"][0];const lb=document.createElement("div");lb.className="lightbox tall ld";lb.innerHTML=`<button class="lbclose">✕ 關閉</button><img src="${x.src}" alt="${esc(x.cap)}"><p>長按圖片即可儲存到相簿。<br>${esc(x.cap)}</p>`;document.body.appendChild(lb);return;}
   const lbx = e.target.closest(".lightbox"); if(lbx){ if(lbx.classList.contains("tall") && !e.target.closest(".lbclose")) return; lbClose();return;}
   const mcb = e.target.closest("[data-mc]"); if(mcb){ const v=mcb.dataset.mc; try{ navigator.clipboard.writeText(v.replace(/[^\d*]/g,"")); }catch(_){} const b=mcb.querySelector("b"); if(b){ const o=b.textContent; b.textContent="已複製"; setTimeout(()=>{b.textContent=o},1200);} return; }
   const tg = e.target.closest("[data-tg]"); if(tg){const p=document.getElementById(tg.dataset.tg);const opening=p.hidden;

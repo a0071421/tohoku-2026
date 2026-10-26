@@ -1952,10 +1952,14 @@ function prepImg(src,name){
   })().catch(e=>{PREP.delete(src);throw e;});
   PREP.set(src,o); return o;
 }
+// 在 claude.ai Artifact 裡用 downloads capability（iOS App 會叫出分享選單）
+let DLNS=null;
+try{ if(window.claude && typeof window.claude.use==="function") window.claude.use("downloads").then(ns=>{DLNS=ns;}).catch(()=>{}); }catch(_){}
 function dlFile(file){const u=URL.createObjectURL(file);const a=document.createElement("a");a.href=u;a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),5000);}
 async function saveImg(src,name,btn){
   const o=prepImg(src,name);
   const go=f=>{
+    if(DLNS){ return DLNS.save({filename:f.name,data:f}).catch(e=>{ if(e&&e.code==="declined") return; if(e&&e.code==="rate_limited") return; try{ window.open(src,"_blank"); }catch(_){} }); }
     if(navigator.canShare && navigator.canShare({files:[f]})){
       return navigator.share({files:[f]}).catch(e=>{ if(!(e&&e.name==="AbortError")) dlFile(f); });
     }

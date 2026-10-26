@@ -376,7 +376,12 @@ tr.sum td:first-child{background:var(--surface-2)}
 .wxthumb img{flex:0 0 auto;width:74px;height:96px;object-fit:cover;object-position:top;border-radius:8px;border:1px solid var(--line);background:#fff}
 .wxthumb span{display:grid;gap:3px;min-width:0}.wxthumb b{font-size:15px}.wxthumb em{font-style:normal;font-size:12.5px;color:var(--muted);line-height:1.4}.wxthumb i{font-style:normal;font-size:12.5px;font-weight:700;color:var(--ai)}
 .lightbox.tall{display:block;overflow:auto;-webkit-overflow-scrolling:touch;padding:0;cursor:default}
-.lightbox.tall .lbclose{position:sticky;top:0;z-index:2;display:block;margin:0 0 0 auto;border:0;border-radius:0 0 0 12px;background:rgba(8,12,16,.85);color:#E4E9EC;font:inherit;font-size:14px;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;cursor:pointer}
+.lightbox.tall .lbbar{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;gap:8px;background:rgba(8,12,16,.88);padding:calc(8px + env(safe-area-inset-top,0px)) 12px 8px}
+.lightbox.tall .lbclose,.lightbox.tall .lbsave{border:0;border-radius:999px;background:rgba(255,255,255,.14);color:#E4E9EC;font:inherit;font-size:14px;padding:8px 14px;cursor:pointer}
+.lightbox.tall .lbsave{background:#2F6FD6;color:#fff;font-weight:700}
+.lightbox img{-webkit-touch-callout:default}
+.lbsv{position:fixed;z-index:3;top:calc(10px + env(safe-area-inset-top,0px));left:10px;height:44px;padding:0 14px;border:0;border-radius:999px;background:rgba(255,255,255,.16);color:#fff;font:inherit;font-size:14px;cursor:pointer}
+.lbsv:hover{background:rgba(255,255,255,.3)}
 .lightbox.tall img{display:block;width:100%;max-width:640px;max-height:none;margin:0 auto;border-radius:0;background:#fff}
 .lightbox.tall p{padding:12px 16px calc(28px + env(safe-area-inset-bottom,0px));line-height:1.7}.lightbox.tall p a{color:#9CC4FF;text-decoration:underline}
 .wxgo{margin:6px 0 2px}
@@ -1927,11 +1932,40 @@ document.addEventListener("error",e=>{const t=e.target;if(t.tagName!=="IMG")retu
   const lb=t.closest(".lightbox");if(lb){lb.classList.remove("ld");lb.classList.add("err");}},true);
 function lbShow(){const l=IMGS[LB.k],x=l[LB.i],n=l.length;const im=LB.el.querySelector("img");LB.el.classList.remove("err");if(im.getAttribute("src")!==x.src){LB.el.classList.add("ld");im.src=x.src;if(im.complete&&im.naturalWidth)LB.el.classList.remove("ld");}
   LB.el.querySelector("p").textContent=(n>1?`${LB.i+1}/${n}・`:"")+x.cap+"・點空白處關閉";
-  LB.el.querySelectorAll(".lbnav").forEach(b=>{b.hidden=n<2;});}
+  LB.el.querySelectorAll(".lbnav").forEach(b=>{b.hidden=n<2;});const sv=LB.el.querySelector(".lbsv");sv.dataset.save=x.src;sv.dataset.name=x.cap.split(/[（(・]/)[0].trim()||"photo";if(matchMedia("(pointer:coarse)").matches)prepImg(x.src,sv.dataset.name).p.catch(()=>{});}
 function lbOpen(k,i){lbClose();const el=document.createElement("div");el.className="lightbox";
-  el.innerHTML=`<div class="lbbox"><img alt=""><p></p></div><button class="lbnav prev" aria-label="上一張">‹</button><button class="lbnav next" aria-label="下一張">›</button><button class="lbx" aria-label="關閉">✕</button>`;
+  el.innerHTML=`<div class="lbbox"><img alt=""><p></p></div><button class="lbnav prev" aria-label="上一張">‹</button><button class="lbnav next" aria-label="下一張">›</button><button class="lbx" aria-label="關閉">✕</button><button class="lbsv" data-save="">⬇ 儲存</button>`;
   document.body.appendChild(el);LB={k,i,el};lbShow();}
 function lbStep(d){if(!LB)return;const n=IMGS[LB.k].length;LB.i=(LB.i+d+n)%n;lbShow();}
+// 儲存圖片：先在背景轉成 JPEG，點按時立即叫出分享選單（iOS 需在點擊當下呼叫）
+const PREP=new Map();
+function prepImg(src,name){
+  let o=PREP.get(src); if(o) return o;
+  o={file:null};
+  o.p=(async()=>{
+    const img=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src;});
+    const c=document.createElement("canvas");c.width=img.naturalWidth;c.height=img.naturalHeight;
+    const g=c.getContext("2d");g.fillStyle="#fff";g.fillRect(0,0,c.width,c.height);g.drawImage(img,0,0);
+    const blob=await new Promise(r=>c.toBlob(r,"image/jpeg",0.92));
+    const fn=(name||"photo").replace(/[\\/:*?"<>|\s]+/g,"_")+".jpg";
+    o.file=new File([blob],fn,{type:"image/jpeg"}); return o.file;
+  })().catch(e=>{PREP.delete(src);throw e;});
+  PREP.set(src,o); return o;
+}
+function dlFile(file){const u=URL.createObjectURL(file);const a=document.createElement("a");a.href=u;a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),5000);}
+async function saveImg(src,name,btn){
+  const o=prepImg(src,name);
+  const go=f=>{
+    if(navigator.canShare && navigator.canShare({files:[f]})){
+      return navigator.share({files:[f]}).catch(e=>{ if(!(e&&e.name==="AbortError")) dlFile(f); });
+    }
+    dlFile(f);
+  };
+  if(o.file){ go(o.file); return; }
+  const old=btn?btn.textContent:""; if(btn) btn.textContent="準備中…";
+  try{ const f=await o.p; if(btn) btn.textContent=old; go(f); }
+  catch(e){ if(btn) btn.textContent=old; try{ window.open(src,"_blank"); }catch(_){} }
+}
 function lbClose(){document.querySelectorAll(".lightbox").forEach(e=>e.remove());LB=null;}
 document.addEventListener("keydown",e=>{
   if(!document.querySelector(".lightbox"))return;
@@ -1980,7 +2014,8 @@ document.addEventListener("click",e=>{
   const gn = e.target.closest("[data-galnav]"); if(gn){const g=gn.parentElement.querySelector(".gal");const f=g.querySelector("figure");g.scrollBy({left:(+gn.dataset.galnav)*(f?f.getBoundingClientRect().width+8:g.clientWidth*.8),behavior:"smooth"});return;}
   const z = e.target.closest("[data-zoom]"); if(z){lbOpen(z.dataset.zoom,+z.dataset.zi);return;}
   const ln = e.target.closest(".lbnav"); if(ln){lbStep(ln.classList.contains("next")?1:-1);return;}
-  const wo = e.target.closest("[data-wxov]"); if(wo){const x=IMGS["wx-overview"][0];const lb=document.createElement("div");lb.className="lightbox tall ld";lb.innerHTML=`<button class="lbclose">✕ 關閉</button><img src="${x.src}" alt="${esc(x.cap)}"><p>長按圖片即可儲存到相簿。<br>${esc(x.cap)}</p>`;document.body.appendChild(lb);return;}
+  const wo = e.target.closest("[data-wxov]"); if(wo){const x=IMGS["wx-overview"][0];const lb=document.createElement("div");lb.className="lightbox tall ld";lb.innerHTML=`<div class="lbbar"><button class="lbsave" data-save="${x.src}" data-name="東北行天氣總覽">⬇ 儲存到相簿</button><button class="lbclose">✕ 關閉</button></div><img src="${x.src}" alt="${esc(x.cap)}"><p>按上方「儲存到相簿」，選「儲存影像」即可；也可以長按圖片儲存。<br>${esc(x.cap)}</p>`;document.body.appendChild(lb);prepImg(x.src,"東北行天氣總覽").p.catch(()=>{});return;}
+  const sv = e.target.closest("[data-save]"); if(sv){ saveImg(sv.dataset.save, sv.dataset.name||"photo", sv); return; }
   const lbx = e.target.closest(".lightbox"); if(lbx){ if(lbx.classList.contains("tall") && !e.target.closest(".lbclose")) return; lbClose();return;}
   const mcb = e.target.closest("[data-mc]"); if(mcb){ const v=mcb.dataset.mc; try{ navigator.clipboard.writeText(v.replace(/[^\d*]/g,"")); }catch(_){} const b=mcb.querySelector("b"); if(b){ const o=b.textContent; b.textContent="已複製"; setTimeout(()=>{b.textContent=o},1200);} return; }
   const tg = e.target.closest("[data-tg]"); if(tg){const p=document.getElementById(tg.dataset.tg);const opening=p.hidden;
